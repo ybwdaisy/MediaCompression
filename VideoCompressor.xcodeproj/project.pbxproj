@@ -11,6 +11,7 @@
 		B570984D291B8353003540AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B570984C291B8353003540AC /* ContentView.swift */; };
 		B570984F291B8354003540AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B570984E291B8354003540AC /* Assets.xcassets */; };
 		B5709852291B8354003540AC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5709851291B8354003540AC /* Preview Assets.xcassets */; };
+		B5AB1F20291CFAD600113F62 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		B570984C291B8353003540AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B570984E291B8354003540AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5709851291B8354003540AC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 				B570984C291B8353003540AC /* ContentView.swift */,
 				B570984E291B8354003540AC /* Assets.xcassets */,
 				B5709850291B8354003540AC /* Preview Content */,
+				B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */,
 			);
 			path = VideoCompressor;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B570984D291B8353003540AC /* ContentView.swift in Sources */,
+				B5AB1F20291CFAD600113F62 /* ImagePickerView.swift in Sources */,
 				B570984B291B8353003540AC /* VideoCompressorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
