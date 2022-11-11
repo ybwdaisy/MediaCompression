@@ -8,25 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var image: Image?
-    @State private var showingImagePickerView = false
-    @State private var inputImage: UIImage?
+    @State var image: Image?
+    @State var isPresented: Bool = false
+    @State var inputImage: UIImage?
+    @State var inputImages: [UIImage] = []
     var body: some View {
         NavigationView {
-            ZStack {
-                Rectangle()
-                    .fill(Color.white)
-                if image != nil {
-                   image?
-                       .resizable()
-                       .scaledToFit()
-                } else {
-                    Button("选择照片") {
-                        self.showingImagePickerView = true
-                    }
+            VStack {
+                image?
+                    .resizable()
+                    .scaledToFit()
+
+                Button("打开相册") {
+                    self.isPresented = true
                 }
             }
-            .navigationTitle("导航")
+            
+            .navigationTitle("相册")
             .navigationBarItems(
                 trailing:
                     NavigationLink {
@@ -35,14 +33,20 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
             )
-            .sheet(isPresented: $showingImagePickerView, onDismiss: loadImage) {
-                ImagePickerView(image: self.$inputImage)
+//            .sheet(isPresented: $isPresented, onDismiss: loadImage) {
+//                ImagePickerView(image: self.$inputImage)
+//            }
+            .sheet(isPresented: $isPresented, onDismiss: loadImage) {
+                PHImagePickerView(isPresented: $isPresented, images: $inputImages)
             }
         }
     }
     func loadImage() {
-        guard let inputImage = inputImage else { return }
-        image = Image(uiImage: inputImage)
+//        guard let inputImage = inputImage else { return }
+//        image = Image(uiImage: inputImage)
+        if (inputImages.count > 0) {
+            image = Image(uiImage: inputImages[0])
+        }
     }
 }
 
