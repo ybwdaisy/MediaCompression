@@ -10,8 +10,8 @@ import PhotosUI
 import SwiftUI
 
 struct PHImagePickerView: UIViewControllerRepresentable {
-    @Binding var isPresented: Bool
     @Binding var images: [UIImage]
+    @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: PHPickerViewControllerDelegate {
         private let parent: PHImagePickerView
@@ -26,13 +26,12 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             }
             let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
             let itemProvider = itemProviders[0]
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                    self.parent.images.append((image as? UIImage)!)
-                    self.parent.isPresented = false;
+            itemProvider.loadObject(ofClass: UIImage.self) { (image: NSItemProviderReading?, error: Error?) in
+                if image != nil {
+                    self.parent.images.append(image! as! UIImage)
                 }
+                self.parent.presentationMode.wrappedValue.dismiss()
             }
-            
         }
     }
     

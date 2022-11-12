@@ -10,8 +10,9 @@ import SwiftUI
 struct ContentView: View {
     @State var image: Image?
     @State var isPresented: Bool = false
-    @State var inputImage: UIImage?
-    @State var inputImages: [UIImage] = []
+    @State var pickerType: NSNumber = 0
+    @State var selectedImage: UIImage?
+    @State var selectedImages: [UIImage] = []
     var body: some View {
         NavigationView {
             VStack {
@@ -19,8 +20,15 @@ struct ContentView: View {
                     .resizable()
                     .scaledToFit()
 
-                Button("打开相册") {
+                Button("打开相册1") {
                     self.isPresented = true
+                    self.pickerType = 0
+                    self.selectedImages = [];
+                }
+                Button("打开相册2") {
+                    self.isPresented = true
+                    self.pickerType = 1
+                    self.selectedImage = nil;
                 }
             }
             
@@ -33,19 +41,21 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
             )
-//            .sheet(isPresented: $isPresented, onDismiss: loadImage) {
-//                ImagePickerView(image: self.$inputImage)
-//            }
             .sheet(isPresented: $isPresented, onDismiss: loadImage) {
-                PHImagePickerView(isPresented: $isPresented, images: $inputImages)
+                if (pickerType == 0) {
+                    ImagePickerView(image: $selectedImage)
+                } else {
+                    PHImagePickerView(images: $selectedImages)
+                }
             }
         }
     }
     func loadImage() {
-//        guard let inputImage = inputImage else { return }
-//        image = Image(uiImage: inputImage)
-        if (inputImages.count > 0) {
-            image = Image(uiImage: inputImages[0])
+        if selectedImage != nil {
+            image = Image(uiImage: selectedImage!)
+        }
+        if (selectedImages.count > 0) {
+            image = Image(uiImage: selectedImages[0])
         }
     }
 }
