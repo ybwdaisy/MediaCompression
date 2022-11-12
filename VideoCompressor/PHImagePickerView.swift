@@ -8,6 +8,7 @@
 import Foundation
 import PhotosUI
 import SwiftUI
+import Photos
 
 struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var images: [UIImage]
@@ -39,15 +40,50 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                     }
                     guard let url = url else { return }
                     let filename = "\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)"
-                    let newUrl = URL(fileURLWithPath: NSTemporaryDirectory() + filename)
-                    try? FileManager.default.copyItem(at: url, to: newUrl)
-                    DispatchQueue.main.async {
-                        print(newUrl.absoluteString)
-                        self.parent.presentationMode.wrappedValue.dismiss()
-                    }
+                    let inputUrl = URL(fileURLWithPath: NSTemporaryDirectory() + filename)
+                    try? FileManager.default.copyItem(at: url, to: inputUrl)
+                    let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mp4")
+                    
+                    self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl)
+                    self.parent.presentationMode.wrappedValue.dismiss()
                 }
             } else {
                 self.parent.presentationMode.wrappedValue.dismiss()
+            }
+        }
+        
+        func compressVideo(inputURL: URL, outputURL: URL) {
+            let urlAsset = AVURLAsset(url: inputURL, options: nil)
+            guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetMediumQuality) else { return }
+            exportSession.outputURL = outputURL
+            exportSession.outputFileType = .mp4
+            exportSession.exportAsynchronously {
+                switch exportSession.status {
+                    case .unknown:
+                        break
+                    case .waiting:
+                        break
+                    case .exporting:
+                        break
+                    case .completed:
+                        self.saveToAlbum(url: outputURL)
+                    case .failed:
+                        break
+                    case .cancelled:
+                        break
+                @unknown default:
+                    fatalError()
+                }
+            }
+        }
+        
+        func saveToAlbum(url: URL) {
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
+            }) { saved, error in
+                if saved {
+                    print("Saved!")
+                }
             }
         }
     }

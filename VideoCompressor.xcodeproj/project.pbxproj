@@ -21,6 +21,7 @@
 		B570984C291B8353003540AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B570984E291B8354003540AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5709851291B8354003540AC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B5764960291FACA800C7F0D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		B5E0F12D291E52E000F7E74D /* PHImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHImagePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,6 +56,7 @@
 		B5709849291B8353003540AC /* VideoCompressor */ = {
 			isa = PBXGroup;
 			children = (
+				B5764960291FACA800C7F0D5 /* Info.plist */,
 				B570984A291B8353003540AC /* VideoCompressorApp.swift */,
 				B570984C291B8353003540AC /* ContentView.swift */,
 				B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */,
@@ -278,6 +280,9 @@
 				DEVELOPMENT_TEAM = 3NQPG2DCKD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VideoCompressor/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "用于将压缩照片或视频保存至本地";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "从相册选取照片或视频";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -307,6 +312,9 @@
 				DEVELOPMENT_TEAM = 3NQPG2DCKD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VideoCompressor/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "用于将压缩照片或视频保存至本地";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "从相册选取照片或视频";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
