@@ -23,13 +23,15 @@ struct PHImagePickerView: UIViewControllerRepresentable {
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             if !results.isEmpty {
                 parent.images = []
-            }
-            let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
-            let itemProvider = itemProviders[0]
-            itemProvider.loadObject(ofClass: UIImage.self) { (image: NSItemProviderReading?, error: Error?) in
-                if image != nil {
-                    self.parent.images.append(image! as! UIImage)
+                let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
+                let itemProvider = itemProviders[0]
+                itemProvider.loadObject(ofClass: UIImage.self) { (image: NSItemProviderReading?, error: Error?) in
+                    if image != nil {
+                        self.parent.images.append(image! as! UIImage)
+                    }
+                    self.parent.presentationMode.wrappedValue.dismiss()
                 }
+            } else {
                 self.parent.presentationMode.wrappedValue.dismiss()
             }
         }
