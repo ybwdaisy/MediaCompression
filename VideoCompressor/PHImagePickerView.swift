@@ -25,11 +25,26 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                 parent.images = []
                 let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
                 let itemProvider = itemProviders[0]
-                itemProvider.loadObject(ofClass: UIImage.self) { (image: NSItemProviderReading?, error: Error?) in
-                    if image != nil {
-                        self.parent.images.append(image! as! UIImage)
+//                itemProvider.loadObject(ofClass: UIImage.self) { (image: NSItemProviderReading?, error: Error?) in
+//                    if image != nil {
+//                        DispatchQueue.main.async {
+//                            self.parent.images.append(image! as! UIImage)
+//                            self.parent.presentationMode.wrappedValue.dismiss()
+//                        }
+//                    }
+//                }
+                itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { (url: URL?, error: Error?) in
+                    if error != nil {
+                        return
                     }
-                    self.parent.presentationMode.wrappedValue.dismiss()
+                    guard let url = url else { return }
+                    let filename = "\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)"
+                    let newUrl = URL(fileURLWithPath: NSTemporaryDirectory() + filename)
+                    try? FileManager.default.copyItem(at: url, to: newUrl)
+                    DispatchQueue.main.async {
+                        print(newUrl.absoluteString)
+                        self.parent.presentationMode.wrappedValue.dismiss()
+                    }
                 }
             } else {
                 self.parent.presentationMode.wrappedValue.dismiss()
@@ -44,7 +59,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 3
-        configuration.filter = .images
+        configuration.filter = .videos
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
         

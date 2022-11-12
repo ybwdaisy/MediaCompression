@@ -34,7 +34,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let controller = UIImagePickerController();
-//        controller.mediaTypes = ["public.movie"]
+        controller.mediaTypes = ["public.movie"]
         controller.delegate = context.coordinator;
         return controller;
     }
