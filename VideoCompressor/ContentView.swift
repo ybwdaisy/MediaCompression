@@ -16,23 +16,32 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                HStack {
+                    Spacer()
+                    Button() {
+                        self.isPresented = true
+                        self.pickerType = 0
+                        self.selectedImages = [];
+                    } label: {
+                        Label("选择单个", systemImage: "photo")
+                    }
+                    Button {
+                        self.isPresented = true
+                        self.pickerType = 1
+                        self.selectedImage = nil;
+                    } label: {
+                        Label("选择多个", systemImage: "photo.on.rectangle.angled")
+                    }
+                    Spacer()
+                }
                 image?
                     .resizable()
                     .scaledToFit()
-
-                Button("打开相册1") {
-                    self.isPresented = true
-                    self.pickerType = 0
-                    self.selectedImages = [];
-                }
-                Button("打开相册2") {
-                    self.isPresented = true
-                    self.pickerType = 1
-                    self.selectedImage = nil;
-                }
+                    .padding()
+                Spacer()
             }
-            
-            .navigationTitle("相册")
+            .padding()
+            .navigationTitle("选择相册")
             .navigationBarItems(
                 trailing:
                     NavigationLink {
