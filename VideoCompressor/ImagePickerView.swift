@@ -23,22 +23,22 @@ struct ImagePickerView: UIViewControllerRepresentable {
             if let uiImage = info[.originalImage] as? UIImage {
                 parent.image = uiImage
             }
-            
             parent.presentationMode.wrappedValue.dismiss()
         }
+        
     }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
     
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIImagePickerController {
-        let picker = UIImagePickerController();
-        picker.delegate = context.coordinator;
-        return picker;
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController();
+        imagePicker.delegate = context.coordinator;
+        return imagePicker;
     }
     
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePickerView>) {
-        
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
     }
+    
 }
