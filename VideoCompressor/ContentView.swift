@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var pickerType: NSNumber = 1
     @State var image: Image?
     @State var isPresented: Bool = false
-    @State var pickerType: NSNumber = 0
-    @State var selectedImage: UIImage?
     @State var selectedImages: [UIImage] = []
     var body: some View {
         NavigationView {
@@ -19,16 +18,16 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     Button() {
-                        self.isPresented = true
-                        self.pickerType = 0
-                        self.selectedImages = [];
+                        pickerType = 1
+                        selectedImages = [];
+                        isPresented = true
                     } label: {
                         Label("选择单个", systemImage: "photo")
                     }
                     Button {
-                        self.isPresented = true
-                        self.pickerType = 1
-                        self.selectedImage = nil;
+                        pickerType = 2
+                        selectedImages = [];
+                        isPresented = true
                     } label: {
                         Label("选择多个", systemImage: "photo.on.rectangle.angled")
                     }
@@ -51,20 +50,28 @@ struct ContentView: View {
                     }
             )
             .sheet(isPresented: $isPresented, onDismiss: loadImage) {
-                if (pickerType == 0) {
-                    ImagePickerView(image: $selectedImage)
-                } else {
-                    PHImagePickerView(images: $selectedImages)
-                }
+                SheetView(pickerType: $pickerType, images: $selectedImages)
             }
         }
     }
     func loadImage() {
-        if selectedImage != nil {
-            image = Image(uiImage: selectedImage!)
-        }
         if (selectedImages.count > 0) {
             image = Image(uiImage: selectedImages[0])
+        }
+        
+    }
+}
+
+struct SheetView: View {
+    @Binding var pickerType: NSNumber
+    @Binding var images: [UIImage]
+    
+    var body: some View {
+        if (pickerType == 1) {
+            ImagePickerView(images: $images);
+        }
+        if (pickerType == 2) {
+            PHImagePickerView(images: $images);
         }
     }
 }

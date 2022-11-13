@@ -8,6 +8,7 @@
 import Foundation
 import PhotosUI
 import SwiftUI
+import Photos
 
 struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var images: [UIImage]
@@ -23,14 +24,66 @@ struct PHImagePickerView: UIViewControllerRepresentable {
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             if !results.isEmpty {
                 parent.images = []
-            }
-            let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
-            let itemProvider = itemProviders[0]
-            itemProvider.loadObject(ofClass: UIImage.self) { (image: NSItemProviderReading?, error: Error?) in
-                if image != nil {
-                    self.parent.images.append(image! as! UIImage)
+                let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
+                let itemProvider = itemProviders[0]
+//                itemProvider.loadObject(ofClass: UIImage.self) { (image: NSItemProviderReading?, error: Error?) in
+//                    if image != nil {
+//                        DispatchQueue.main.async {
+//                            self.parent.images.append(image! as! UIImage)
+//                            self.parent.presentationMode.wrappedValue.dismiss()
+//                        }
+//                    }
+//                }
+                itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { (url: URL?, error: Error?) in
+                    if error != nil {
+                        return
+                    }
+                    guard let url = url else { return }
+                    let filename = "\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)"
+                    let inputUrl = URL(fileURLWithPath: NSTemporaryDirectory() + filename)
+                    try? FileManager.default.copyItem(at: url, to: inputUrl)
+                    let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mp4")
+                    
+                    self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl)
+                    self.parent.presentationMode.wrappedValue.dismiss()
                 }
+            } else {
                 self.parent.presentationMode.wrappedValue.dismiss()
+            }
+        }
+        
+        func compressVideo(inputURL: URL, outputURL: URL) {
+            let urlAsset = AVURLAsset(url: inputURL, options: nil)
+            guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetMediumQuality) else { return }
+            exportSession.outputURL = outputURL
+            exportSession.outputFileType = .mp4
+            exportSession.exportAsynchronously {
+                switch exportSession.status {
+                    case .unknown:
+                        break
+                    case .waiting:
+                        break
+                    case .exporting:
+                        break
+                    case .completed:
+                        self.saveToAlbum(url: outputURL)
+                    case .failed:
+                        break
+                    case .cancelled:
+                        break
+                @unknown default:
+                    fatalError()
+                }
+            }
+        }
+        
+        func saveToAlbum(url: URL) {
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
+            }) { saved, error in
+                if saved {
+                    print("Saved!")
+                }
             }
         }
     }
@@ -42,7 +95,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 3
-        configuration.filter = .images
+        configuration.filter = .videos
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
         
