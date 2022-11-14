@@ -22,14 +22,14 @@ struct ContentView: View {
                         selectedImages = [];
                         isPresented = true
                     } label: {
-                        Label("选择单个", systemImage: "photo")
+                        Label("选择照片", systemImage: "photo")
                     }
                     Button {
                         pickerType = 2
                         selectedImages = [];
                         isPresented = true
                     } label: {
-                        Label("选择多个", systemImage: "photo.on.rectangle.angled")
+                        Label("选择视频", systemImage: "photo.on.rectangle.angled")
                     }
                     Spacer()
                 }

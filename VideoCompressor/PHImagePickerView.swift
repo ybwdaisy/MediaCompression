@@ -26,14 +26,6 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                 parent.images = []
                 let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
                 let itemProvider = itemProviders[0]
-//                itemProvider.loadObject(ofClass: UIImage.self) { (image: NSItemProviderReading?, error: Error?) in
-//                    if image != nil {
-//                        DispatchQueue.main.async {
-//                            self.parent.images.append(image! as! UIImage)
-//                            self.parent.presentationMode.wrappedValue.dismiss()
-//                        }
-//                    }
-//                }
                 itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { (url: URL?, error: Error?) in
                     if error != nil {
                         return
