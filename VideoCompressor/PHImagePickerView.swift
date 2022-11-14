@@ -12,6 +12,7 @@ import Photos
 
 struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var images: [UIImage]
+    @Binding var progress: Float
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: PHPickerViewControllerDelegate {
@@ -36,8 +37,10 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                     try? FileManager.default.copyItem(at: url, to: inputUrl)
                     let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mp4")
                     
-                    self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl)
-                    self.parent.presentationMode.wrappedValue.dismiss()
+                    DispatchQueue.main.async {
+                        self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl)
+                        self.parent.presentationMode.wrappedValue.dismiss()
+                    }
                 }
             } else {
                 self.parent.presentationMode.wrappedValue.dismiss()
@@ -49,6 +52,13 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetMediumQuality) else { return }
             exportSession.outputURL = outputURL
             exportSession.outputFileType = .mp4
+            
+            let exportSessionTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                let progress = Float(exportSession.progress)
+                self.parent.progress = progress;
+            }
+            exportSessionTimer.fire()
+            
             exportSession.exportAsynchronously {
                 switch exportSession.status {
                     case .unknown:
@@ -58,6 +68,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                     case .exporting:
                         break
                     case .completed:
+                        exportSessionTimer.invalidate()
                         self.saveToAlbum(url: outputURL)
                     case .failed:
                         break
@@ -67,6 +78,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                     fatalError()
                 }
             }
+            
         }
         
         func saveToAlbum(url: URL) {
@@ -75,16 +87,14 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             }) { saved, error in
                 if saved {
                     self.showAlert(message: "The compressed video has been saved to the album.")
+                    self.parent.progress = 0.0;
                 }
             }
         }
         
         func showAlert(message: String) {
             let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { action in
-            }))
-            alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { action in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             }))
             DispatchQueue.main.async {
                 UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)

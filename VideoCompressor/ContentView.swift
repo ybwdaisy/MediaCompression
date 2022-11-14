@@ -12,6 +12,7 @@ struct ContentView: View {
     @State var image: Image?
     @State var isPresented: Bool = false
     @State var selectedImages: [UIImage] = []
+    @State var progress: Float = 0.0
     var body: some View {
         NavigationView {
             VStack {
@@ -22,17 +23,20 @@ struct ContentView: View {
                         selectedImages = [];
                         isPresented = true
                     } label: {
-                        Label("选择照片", systemImage: "photo")
+                        Label("Select Photo", systemImage: "photo")
                     }
                     Button {
                         pickerType = 2
                         selectedImages = [];
                         isPresented = true
                     } label: {
-                        Label("选择视频", systemImage: "photo.on.rectangle.angled")
+                        Label("Select Video", systemImage: "photo.on.rectangle.angled")
                     }
                     Spacer()
                 }
+                Spacer()
+                ProgressView("", value: progress, total: 1.0)
+                    .padding()
                 image?
                     .resizable()
                     .scaledToFit()
@@ -40,7 +44,7 @@ struct ContentView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("选择相册")
+            .navigationTitle("Video Compressor")
             .navigationBarItems(
                 trailing:
                     NavigationLink {
@@ -50,7 +54,7 @@ struct ContentView: View {
                     }
             )
             .sheet(isPresented: $isPresented, onDismiss: loadImage) {
-                SheetView(pickerType: $pickerType, images: $selectedImages)
+                SheetView(pickerType: $pickerType, images: $selectedImages, progress: $progress)
             }
         }
     }
@@ -65,13 +69,14 @@ struct ContentView: View {
 struct SheetView: View {
     @Binding var pickerType: NSNumber
     @Binding var images: [UIImage]
+    @Binding var progress: Float
     
     var body: some View {
         if (pickerType == 1) {
             ImagePickerView(images: $images);
         }
         if (pickerType == 2) {
-            PHImagePickerView(images: $images);
+            PHImagePickerView(images: $images, progress: $progress);
         }
     }
 }
