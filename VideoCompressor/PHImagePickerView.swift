@@ -93,8 +93,8 @@ struct PHImagePickerView: UIViewControllerRepresentable {
         }
         
         func showAlert(message: String) {
-            let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            let alert = UIAlertController(title: NSLocalizedString(message, comment: ""), message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { action in
             }))
             DispatchQueue.main.async {
                 UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)

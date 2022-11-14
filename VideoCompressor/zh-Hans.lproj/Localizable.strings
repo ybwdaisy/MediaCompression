@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  VideoCompressor
+
+  Created by ybw-macbook-pro on 2022/11/14.
+  
+*/
+
+"Select Photo" = "选择照片";
+"Select Video" = "选择视频";
+"Video Compressor" = "视频压缩器";
+"The compressed video has been saved to the album." = "压缩视频已被保存至相册";
+"OK" = "好";

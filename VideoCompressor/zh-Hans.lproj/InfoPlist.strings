@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  VideoCompressor
+
+  Created by ybw-macbook-pro on 2022/11/14.
+  
+*/
+
+NSPhotoLibraryUsageDescription = "从相册选择照片或视频";
+NSPhotoLibraryAddUsageDescription = "将照片或视频保存至相册";
