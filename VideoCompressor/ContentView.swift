@@ -35,8 +35,26 @@ struct ContentView: View {
                     Spacer()
                 }
                 Spacer()
-                ProgressView("", value: progress, total: 1.0)
+                ProgressView(String(format: "%.0f %%", min(progress, 1.0) * 100.0), value: progress, total: 1.0)
                     .padding()
+                Spacer()
+                ZStack {
+                    Circle()
+                        .stroke(lineWidth: 5.0)
+                        .opacity(0.3)
+                        .foregroundColor(Color.orange)
+                    Circle()
+                        .trim(from: 0.0, to: CGFloat(min(progress, 1.0)))
+                        .stroke(style: StrokeStyle(lineWidth: 5.0, lineCap: .round, lineJoin: .round))
+                        .foregroundColor(Color.orange)
+                        .rotationEffect(Angle(degrees: 270.0))
+                        .animation(.linear, value: progress)
+
+                    VStack{
+                        Text(String(format: "%.0f %%", min(progress, 1.0) * 100.0))
+                    }
+                }
+                    .padding(60.0)
                 image?
                     .resizable()
                     .scaledToFit()
