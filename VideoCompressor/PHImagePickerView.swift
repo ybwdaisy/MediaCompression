@@ -74,8 +74,20 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                 PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
             }) { saved, error in
                 if saved {
-                    print("Saved!")
+                    self.showAlert(message: "The compressed video has been saved to the album.")
                 }
+            }
+        }
+        
+        func showAlert(message: String) {
+            let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { action in
+            }))
+            alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { action in
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            }))
+            DispatchQueue.main.async {
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
             }
         }
     }
