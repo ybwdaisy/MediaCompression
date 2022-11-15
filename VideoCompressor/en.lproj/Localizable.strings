@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  VideoCompressor
+
+  Created by ybw-macbook-pro on 2022/11/14.
+  
+*/
+
+"Select Photo" = "Select Photo";
+"Select Video" = "Select Video";
+"Video Compressor" = "Video Compressor";
+"The compressed video has been saved to the album." = "The compressed video has been saved to the album.";
+"OK" = "OK";

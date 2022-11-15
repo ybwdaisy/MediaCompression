@@ -12,6 +12,8 @@
 		B570984F291B8354003540AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B570984E291B8354003540AC /* Assets.xcassets */; };
 		B5709852291B8354003540AC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5709851291B8354003540AC /* Preview Assets.xcassets */; };
 		B5AB1F20291CFAD600113F62 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */; };
+		B5D7E4BD29222D8100138B10 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5D7E4BF29222D8100138B10 /* Localizable.strings */; };
+		B5D7E4C329222FB800138B10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5D7E4C529222FB800138B10 /* InfoPlist.strings */; };
 		B5E0F12E291E52E000F7E74D /* PHImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E0F12D291E52E000F7E74D /* PHImagePickerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,10 @@
 		B5709851291B8354003540AC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B5764960291FACA800C7F0D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		B5D7E4BE29222D8100138B10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B5D7E4C029222D8800138B10 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		B5D7E4C429222FB800138B10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B5D7E4C629222FBC00138B10 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B5E0F12D291E52E000F7E74D /* PHImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHImagePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +68,8 @@
 				B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */,
 				B5E0F12D291E52E000F7E74D /* PHImagePickerView.swift */,
 				B570984E291B8354003540AC /* Assets.xcassets */,
+				B5D7E4BF29222D8100138B10 /* Localizable.strings */,
+				B5D7E4C529222FB800138B10 /* InfoPlist.strings */,
 				B5709850291B8354003540AC /* Preview Content */,
 			);
 			path = VideoCompressor;
@@ -91,6 +99,8 @@
 			dependencies = (
 			);
 			name = VideoCompressor;
+			packageProductDependencies = (
+			);
 			productName = VideoCompressor;
 			productReference = B5709847291B8353003540AC /* VideoCompressor.app */;
 			productType = "com.apple.product-type.application";
@@ -117,8 +127,11 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = B570983E291B8353003540AC;
+			packageReferences = (
+			);
 			productRefGroup = B5709848291B8353003540AC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -134,6 +147,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5709852291B8354003540AC /* Preview Assets.xcassets in Resources */,
+				B5D7E4C329222FB800138B10 /* InfoPlist.strings in Resources */,
+				B5D7E4BD29222D8100138B10 /* Localizable.strings in Resources */,
 				B570984F291B8354003540AC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -153,6 +168,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B5D7E4BF29222D8100138B10 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B5D7E4BE29222D8100138B10 /* en */,
+				B5D7E4C029222D8800138B10 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		B5D7E4C529222FB800138B10 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B5D7E4C429222FB800138B10 /* en */,
+				B5D7E4C629222FBC00138B10 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B5709853291B8354003540AC /* Debug */ = {
@@ -281,8 +317,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VideoCompressor/Info.plist;
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "用于将压缩照片或视频保存至本地";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "从相册选取照片或视频";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save a compressed photo or video to an album 111";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Select a photo or video from an album 111";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -313,8 +349,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VideoCompressor/Info.plist;
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "用于将压缩照片或视频保存至本地";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "从相册选取照片或视频";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save a compressed photo or video to an album 111";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Select a photo or video from an album 111";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
