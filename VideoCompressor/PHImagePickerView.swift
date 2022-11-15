@@ -12,7 +12,7 @@ import Photos
 
 struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var images: [UIImage]
-    @Binding var progress: Float
+    @Binding var progressList: [Float]
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: PHPickerViewControllerDelegate {
@@ -26,36 +26,41 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             if !results.isEmpty {
                 parent.images = []
                 let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
-                let itemProvider = itemProviders[0]
-                itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { (url: URL?, error: Error?) in
-                    if error != nil {
-                        return
-                    }
-                    guard let url = url else { return }
-                    let filename = "\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)"
-                    let inputUrl = URL(fileURLWithPath: NSTemporaryDirectory() + filename)
-                    try? FileManager.default.copyItem(at: url, to: inputUrl)
-                    let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + UUID().uuidString + ".mp4")
-                    
-                    DispatchQueue.main.async {
-                        self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl)
-                        self.parent.presentationMode.wrappedValue.dismiss()
+                
+                for (index, itemProvider) in itemProviders.enumerated() {
+                    self.parent.progressList.append(0.0)
+                    itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { url, error in
+                        if error != nil {
+                            return
+                        }
+                        guard let url = url else { return }
+                        let filename = url.deletingPathExtension().lastPathComponent
+                        let inputUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(UUID().uuidString).\(url.pathExtension)")
+                        try? FileManager.default.copyItem(at: url, to: inputUrl)
+                        let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(filename)_\(Int(Date().timeIntervalSince1970)).MP4")
+
+                        DispatchQueue.main.async {
+                            self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl, index: index)
+                        }
                     }
                 }
+                self.parent.presentationMode.wrappedValue.dismiss()
+                
             } else {
                 self.parent.presentationMode.wrappedValue.dismiss()
             }
         }
         
-        func compressVideo(inputURL: URL, outputURL: URL) {
+        func compressVideo(inputURL: URL, outputURL: URL, index: Int) {
             let urlAsset = AVURLAsset(url: inputURL, options: nil)
-            guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetMediumQuality) else { return }
+            
+            guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetHighestQuality) else { return }
             exportSession.outputURL = outputURL
             exportSession.outputFileType = .mp4
             
             let exportSessionTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
                 let progress = Float(exportSession.progress)
-                self.parent.progress = progress;
+                self.parent.progressList[index] = progress
             }
             exportSessionTimer.fire()
             
@@ -69,7 +74,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                         break
                     case .completed:
                         exportSessionTimer.invalidate()
-                        self.saveToAlbum(url: outputURL)
+                        self.saveToAlbum(url: outputURL, index: index)
                     case .failed:
                         break
                     case .cancelled:
@@ -81,23 +86,13 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             
         }
         
-        func saveToAlbum(url: URL) {
+        func saveToAlbum(url: URL, index: Int) {
             PHPhotoLibrary.shared().performChanges({
                 PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
             }) { saved, error in
                 if saved {
-                    self.showAlert(message: "The compressed video has been saved to the album.")
-                    self.parent.progress = 0.0;
+                    self.parent.progressList[index] = 0.0
                 }
-            }
-        }
-        
-        func showAlert(message: String) {
-            let alert = UIAlertController(title: NSLocalizedString(message, comment: ""), message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { action in
-            }))
-            DispatchQueue.main.async {
-                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
             }
         }
     }
@@ -108,7 +103,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 3
+        configuration.selectionLimit = 10
         configuration.filter = .videos
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
