@@ -56,7 +56,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             
             guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetHighestQuality) else { return }
             exportSession.outputURL = outputURL
-            exportSession.outputFileType = .mp4
+            exportSession.outputFileType = .mov
             
             let exportSessionTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
                 let progress = Float(exportSession.progress)
