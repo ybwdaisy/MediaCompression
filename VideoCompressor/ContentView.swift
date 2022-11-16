@@ -34,7 +34,7 @@ struct ContentView: View {
                         isPresented = true
                         progressList = []
                     } label: {
-                        Label("Select Document", systemImage: "doc.on.doc")
+                        Label("Select Document", systemImage: "arrow.triangle.2.circlepath.doc.on.clipboard")
                     }
                     Spacer()
                 }

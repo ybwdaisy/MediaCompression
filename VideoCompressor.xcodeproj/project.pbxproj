@@ -321,8 +321,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VideoCompressor/Info.plist;
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save a compressed photo or video to an album 111";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Select a photo or video from an album 111";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -353,8 +351,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VideoCompressor/Info.plist;
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save a compressed photo or video to an album 111";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Select a photo or video from an album 111";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
