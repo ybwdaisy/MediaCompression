@@ -8,6 +8,7 @@
 
 "Select Photo" = "选择照片";
 "Select Video" = "选择视频";
+"Select Document" = "选择文件";
 "Video Compressor" = "视频压缩器";
 "The compressed image has been saved to the album." = "压缩照片已被保存至相册";
 "OK" = "好";

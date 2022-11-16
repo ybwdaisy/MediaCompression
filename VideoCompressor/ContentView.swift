@@ -29,6 +29,13 @@ struct ContentView: View {
                     } label: {
                         Label("Select Video", systemImage: "photo.on.rectangle.angled")
                     }
+                    Button {
+                        pickerType = 3
+                        isPresented = true
+                        progressList = []
+                    } label: {
+                        Label("Select Document", systemImage: "doc.on.doc")
+                    }
                     Spacer()
                 }
                 Spacer()
@@ -67,6 +74,9 @@ struct SheetView: View {
         }
         if (pickerType == 2) {
             PHImagePickerView(progressList: $progressList);
+        }
+        if (pickerType == 3) {
+            DocumentPickerView(progressList: $progressList);
         }
     }
 }

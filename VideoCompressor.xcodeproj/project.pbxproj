@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B548E97C2924D94F00A6D22A /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B548E97B2924D94F00A6D22A /* DocumentPickerView.swift */; };
 		B570984B291B8353003540AC /* VideoCompressorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B570984A291B8353003540AC /* VideoCompressorApp.swift */; };
 		B570984D291B8353003540AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B570984C291B8353003540AC /* ContentView.swift */; };
 		B570984F291B8354003540AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B570984E291B8354003540AC /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B548E97B2924D94F00A6D22A /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
 		B5709847291B8353003540AC /* VideoCompressor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoCompressor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B570984A291B8353003540AC /* VideoCompressorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCompressorApp.swift; sourceTree = "<group>"; };
 		B570984C291B8353003540AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				B570984C291B8353003540AC /* ContentView.swift */,
 				B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */,
 				B5E0F12D291E52E000F7E74D /* PHImagePickerView.swift */,
+				B548E97B2924D94F00A6D22A /* DocumentPickerView.swift */,
 				B570984E291B8354003540AC /* Assets.xcassets */,
 				B5D7E4BF29222D8100138B10 /* Localizable.strings */,
 				B5D7E4C529222FB800138B10 /* InfoPlist.strings */,
@@ -160,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B548E97C2924D94F00A6D22A /* DocumentPickerView.swift in Sources */,
 				B570984D291B8353003540AC /* ContentView.swift in Sources */,
 				B5AB1F20291CFAD600113F62 /* ImagePickerView.swift in Sources */,
 				B5E0F12E291E52E000F7E74D /* PHImagePickerView.swift in Sources */,
