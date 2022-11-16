@@ -11,7 +11,6 @@ import SwiftUI
 import Photos
 
 struct PHImagePickerView: UIViewControllerRepresentable {
-    @Binding var images: [UIImage]
     @Binding var progressList: [Float]
     @Environment(\.presentationMode) var presentationMode
     
@@ -24,7 +23,6 @@ struct PHImagePickerView: UIViewControllerRepresentable {
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             if !results.isEmpty {
-                parent.images = []
                 let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
                 
                 for (index, itemProvider) in itemProviders.enumerated() {
@@ -34,10 +32,10 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                             return
                         }
                         guard let url = url else { return }
-                        let filename = url.deletingPathExtension().lastPathComponent
+                        let fileName = url.deletingPathExtension().lastPathComponent
                         let inputUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(UUID().uuidString).\(url.pathExtension)")
                         try? FileManager.default.copyItem(at: url, to: inputUrl)
-                        let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(filename)_\(Int(Date().timeIntervalSince1970)).MP4")
+                        let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).MOV")
 
                         DispatchQueue.main.async {
                             self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl, index: index)
