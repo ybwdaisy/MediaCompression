@@ -35,7 +35,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                         let fileName = url.deletingPathExtension().lastPathComponent
                         let inputUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(UUID().uuidString).\(url.pathExtension)")
                         try? FileManager.default.copyItem(at: url, to: inputUrl)
-                        let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).MOV")
+                        let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)")
 
                         DispatchQueue.main.async {
                             self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl, index: index)
@@ -54,7 +54,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             
             guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetHighestQuality) else { return }
             exportSession.outputURL = outputURL
-            exportSession.outputFileType = .mov
+            exportSession.outputFileType = .mov // TODO: Compatible with non-MOV format
             
             let exportSessionTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
                 let progress = Float(exportSession.progress)

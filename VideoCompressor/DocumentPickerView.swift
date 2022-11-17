@@ -21,7 +21,6 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         }
         
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            print(urls)
             parent.presentationMode.wrappedValue.dismiss()
         }
     }
