@@ -9,9 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var pickerType: NSNumber = 1
-    @State var image: Image?
     @State var isPresented: Bool = false
-    @State var selectedImages: [UIImage] = []
     @State var progressList: [Float] = []
     var body: some View {
         NavigationView {
@@ -20,18 +18,23 @@ struct ContentView: View {
                     Spacer()
                     Button() {
                         pickerType = 1
-                        selectedImages = [];
                         isPresented = true
                     } label: {
                         Label("Select Photo", systemImage: "photo")
                     }
                     Button {
                         pickerType = 2
-                        selectedImages = [];
                         isPresented = true
                         progressList = []
                     } label: {
                         Label("Select Video", systemImage: "photo.on.rectangle.angled")
+                    }
+                    Button {
+                        pickerType = 3
+                        isPresented = true
+                        progressList = []
+                    } label: {
+                        Label("Select Document", systemImage: "arrow.triangle.2.circlepath.doc.on.clipboard")
                     }
                     Spacer()
                 }
@@ -42,10 +45,6 @@ struct ContentView: View {
                             .padding()
                     }
                 }
-                image?
-                    .resizable()
-                    .scaledToFit()
-                    .padding()
                 Spacer()
             }
             .padding(EdgeInsets(top: CGFloat(20.0), leading: 0, bottom: 0, trailing: 0))
@@ -58,30 +57,26 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
             )
-            .sheet(isPresented: $isPresented, onDismiss: loadImage) {
-                SheetView(pickerType: $pickerType, images: $selectedImages, progressList: $progressList)
+            .sheet(isPresented: $isPresented, onDismiss: nil) {
+                SheetView(pickerType: $pickerType, progressList: $progressList)
             }
         }
-    }
-    func loadImage() {
-        if (selectedImages.count > 0) {
-            image = Image(uiImage: selectedImages[0])
-        }
-        
     }
 }
 
 struct SheetView: View {
     @Binding var pickerType: NSNumber
-    @Binding var images: [UIImage]
     @Binding var progressList: [Float]
     
     var body: some View {
         if (pickerType == 1) {
-            ImagePickerView(images: $images);
+            ImagePickerView(progressList: $progressList);
         }
         if (pickerType == 2) {
-            PHImagePickerView(images: $images, progressList: $progressList);
+            PHImagePickerView(progressList: $progressList);
+        }
+        if (pickerType == 3) {
+            DocumentPickerView(progressList: $progressList);
         }
     }
 }
