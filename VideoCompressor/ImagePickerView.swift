@@ -27,9 +27,32 @@ struct ImagePickerView: UIViewControllerRepresentable {
             let fileName = imageNameArr[0]
             let extName = imageNameArr[1]
             let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(extName)")
-            
+
             let image = info[.originalImage] as? UIImage
-            try! image?.jpegData(compressionQuality: 0.5)?.write(to: outputURL)
+            let imageURL = info[.imageURL] as? URL
+            let data = image?.jpegData(compressionQuality: 0.5)
+            
+            let source = CGImageSourceCreateWithData(data as! CFData, nil)
+            let type = CGImageSourceGetType(source!)
+            let mutableData = NSMutableData(data: data!)
+            let destination = CGImageDestinationCreateWithData(mutableData, type!, 1, nil)
+
+            let imageSource = CGImageSourceCreateWithURL(imageURL as! CFURL, nil)
+            let imageProperties = CGImageSourceCopyMetadataAtIndex(imageSource!, 0, nil)
+            let mutableMetadata = CGImageMetadataCreateMutableCopy(imageProperties!)
+            
+            let location = asset.location;
+            if location != nil {
+                CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLatitudeRef, "N" as CFTypeRef)
+                CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLatitude, location!.coordinate.latitude as CFTypeRef)
+                CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLongitudeRef, "E" as CFTypeRef)
+                CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLongitude, location!.coordinate.longitude as CFTypeRef)
+            }
+            
+            CGImageDestinationAddImageAndMetadata(destination!, UIImage(data: data!)!.cgImage!, mutableMetadata, nil)
+            CGImageDestinationFinalize(destination!)
+            
+            try? mutableData.write(to: outputURL)
             
             PHPhotoLibrary.shared().performChanges({
                 PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: outputURL)
