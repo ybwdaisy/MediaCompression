@@ -49,6 +49,8 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLongitude, location!.coordinate.longitude as CFTypeRef)
             }
             
+            // TODO: set asset.creationDate
+            
             CGImageDestinationAddImageAndMetadata(destination!, UIImage(data: data!)!.cgImage!, mutableMetadata, nil)
             CGImageDestinationFinalize(destination!)
             
