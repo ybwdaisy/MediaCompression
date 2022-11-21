@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     @State private var showClearCacheAlert = false
-    @State private var cacheSize: String = ""
+    @State private var cacheSize: String = "0.0 B"
 
     var body: some View {
         ZStack {
@@ -36,7 +36,7 @@ struct SettingView: View {
                     Alert(
                         title: Text("Clear the cache"),
                         message: Text("Temporary files generated during the compression process will be cleared."),
-                        primaryButton: .destructive(Text("Clear"), action: clearCache),
+                        primaryButton: .destructive(Text("Clear"), action: submitClearCache),
                         secondaryButton: .cancel(Text("Cancel"))
                     )
                 }
@@ -50,16 +50,19 @@ struct SettingView: View {
         }
     }
     
-    func calculateCache() -> String {
-        let cachePath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first
-        
-        let files = FileManager.default.subpaths(atPath: cachePath!)
-        
+    private func submitClearCache() {
+        clearCache()
+        cacheSize = "0.0 B"
+    }
+    
+    private func calculateCache() -> String {
+        let tmpPath = NSHomeDirectory() + "/tmp"
+        let files = FileManager.default.subpaths(atPath: tmpPath)
         var size: Float = 0
         
         for file in files! {
-            let path = cachePath?.appending("/\(file)")
-            let folder = try! FileManager.default.attributesOfItem(atPath: path!)
+            let path = tmpPath.appending("/\(file)")
+            let folder = try! FileManager.default.attributesOfItem(atPath: path)
             for (key, value) in folder {
                 if key == FileAttributeKey.size {
                     size += (value as AnyObject).floatValue
@@ -70,21 +73,19 @@ struct SettingView: View {
         return formatFileSize(bytes: size)
     }
     
-    func clearCache() {
-        let cachePath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first
-        
-        let files = FileManager.default.subpaths(atPath: cachePath!)
+    private func clearCache() {
+        let tmpPath = NSHomeDirectory() + "/tmp"
+        let files = FileManager.default.subpaths(atPath: tmpPath)
         
         for file in files! {
-            let path = cachePath?.appending("/\(file)")
-            if FileManager.default.fileExists(atPath: path!) {
-                try! FileManager.default.removeItem(atPath: path!)
+            let path = tmpPath.appending("/\(file)")
+            if FileManager.default.fileExists(atPath: path) {
+                try! FileManager.default.removeItem(atPath: path)
             }
         }
-        cacheSize = ""
     }
     
-    func formatFileSize(bytes: Float) -> String {
+    private func formatFileSize(bytes: Float) -> String {
         if (bytes < 1024) {
             return "\(bytes) B"
         }
