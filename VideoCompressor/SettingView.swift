@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     @State private var showClearCacheAlert = false
-    @State private var cacheSize: String = "0.0 B"
+    @State private var cacheSize: String = ""
 
     var body: some View {
         ZStack {
@@ -52,7 +52,7 @@ struct SettingView: View {
     
     private func submitClearCache() {
         clearCache()
-        cacheSize = "0.0 B"
+        cacheSize = calculateCache()
     }
     
     private func calculateCache() -> String {
