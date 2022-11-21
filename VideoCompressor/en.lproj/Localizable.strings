@@ -6,9 +6,14 @@
   
 */
 
-"Select Photo" = "Select Photo";
-"Select Video" = "Select Video";
-"Select Document" = "Select Document";
+"Photo" = "Photo";
+"Video" = "Video";
+"Document" = "Document";
 "Video Compressor" = "Video Compressor";
 "The compressed image has been saved to the album." = "The compressed image has been saved to the album.";
 "OK" = "OK";
+"Cancel" = "Cancel";
+"Setting" = "Setting";
+"Clear the cache" = "Clear the cache";
+"Clear" = "Clear";
+"Temporary files generated during the compression process will be cleared." = "Temporary files generated during the compression process will be cleared.";
