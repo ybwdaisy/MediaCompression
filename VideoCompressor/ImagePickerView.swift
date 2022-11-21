@@ -11,6 +11,7 @@ import Photos
 
 struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var progressList: [Float]
+    @Binding var compressFinished: Bool
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -63,12 +64,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: outputURL)
             }) { saved, error in
                 if saved {
-                    let alert = UIAlertController(title: NSLocalizedString("The compressed image has been saved to the album.", comment: ""), message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { action in
-                    }))
-                    DispatchQueue.main.async {
-                        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
-                    }
+                    self.parent.compressFinished = true
                 }
             }
             parent.presentationMode.wrappedValue.dismiss()
