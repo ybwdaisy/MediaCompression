@@ -21,12 +21,16 @@ struct ImagePickerView: UIViewControllerRepresentable {
         }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            let asset = info[.phAsset] as! PHAsset
-            let imageName = asset.value(forKey: "filename") as! String
-            let imageNameArr = imageName.components(separatedBy: ".")
-            let fileName = imageNameArr[0]
-            let extName = imageNameArr[1]
-            let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(extName)")
+            let asset = info[.phAsset] as? PHAsset
+            var outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(Int(Date().timeIntervalSince1970)).jpg")
+            var location = asset?.location
+            if asset != nil {
+                let imageName = asset!.value(forKey: "filename") as! String
+                let imageNameArr = imageName.components(separatedBy: ".")
+                let fileName = imageNameArr[0]
+                let extName = imageNameArr[1]
+                outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(extName)")
+            }
 
             let image = info[.originalImage] as? UIImage
             let imageURL = info[.imageURL] as? URL
@@ -41,7 +45,6 @@ struct ImagePickerView: UIViewControllerRepresentable {
             let imageProperties = CGImageSourceCopyMetadataAtIndex(imageSource!, 0, nil)
             let mutableMetadata = CGImageMetadataCreateMutableCopy(imageProperties!)
             
-            let location = asset.location;
             if location != nil {
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLatitudeRef, "N" as CFTypeRef)
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLatitude, location!.coordinate.latitude as CFTypeRef)
