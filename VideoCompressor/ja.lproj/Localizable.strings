@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  VideoCompressor
+
+  Created by ybw-macbook-pro on 2022/11/14.
+  
+*/
+
+"Photos" = "写真を選ぶ";
+"Videos" = "動画を選ぶ";
+"Documents" = "ファイルを選択";
+"Video Compressor" = "ビデオコンプレッサー";
+"The compressed image has been saved to the album." = "圧縮された写真がアルバムに保存されました";
+"OK" = "わかった";
+"Cancel" = "キャンセル";
+"Setting" = "設定";
+"Clear the cache" = "キャッシュの消去";
+"Clear" = "クリアする";
+"Temporary files generated during the compression process will be cleared." = "圧縮中に生成された一時ファイルは消去されます。";
