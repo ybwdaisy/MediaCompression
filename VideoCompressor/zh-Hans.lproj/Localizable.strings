@@ -6,9 +6,9 @@
   
 */
 
-"Photo" = "选择照片";
-"Video" = "选择视频";
-"Document" = "选择文件";
+"Photos" = "选择照片";
+"Videos" = "选择视频";
+"Documents" = "选择文件";
 "Video Compressor" = "视频压缩器";
 "The compressed image has been saved to the album." = "压缩照片已被保存至相册";
 "OK" = "好";

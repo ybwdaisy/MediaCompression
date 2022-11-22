@@ -6,9 +6,9 @@
   
 */
 
-"Photo" = "Photo";
-"Video" = "Video";
-"Document" = "Document";
+"Photos" = "Photos";
+"Videos" = "Videos";
+"Documents" = "Documents";
 "Video Compressor" = "Video Compressor";
 "The compressed image has been saved to the album." = "The compressed image has been saved to the album.";
 "OK" = "OK";
