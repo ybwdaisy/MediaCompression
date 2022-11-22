@@ -21,6 +21,7 @@ struct ContentView: View {
                         HStack {
                             Image(systemName: "photo")
                                 .foregroundColor(Color(UIColor.systemBlue))
+                                .frame(width: 25.0)
                             Text("Photos")
                                 .foregroundColor(Color(UIColor.label))
                             Spacer()
@@ -37,6 +38,7 @@ struct ContentView: View {
                         HStack {
                             Image(systemName: "video")
                                 .foregroundColor(Color(UIColor.systemBlue))
+                                .frame(width: 25.0)
                             Text("Videos")
                                 .foregroundColor(Color(UIColor.label))
                             Spacer()
@@ -54,6 +56,7 @@ struct ContentView: View {
                         HStack {
                             Image(systemName: "doc")
                                 .foregroundColor(Color(UIColor.systemBlue))
+                                .frame(width: 25.0)
                             Text("Documents")
                                 .foregroundColor(Color(UIColor.label))
                             Spacer()
