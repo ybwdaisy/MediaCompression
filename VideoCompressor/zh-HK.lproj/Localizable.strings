@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  VideoCompressor
+
+  Created by ybw-macbook-pro on 2022/11/14.
+  
+*/
+
+"Photos" = "選擇照片";
+"Videos" = "選擇視頻";
+"Documents" = "選擇文件";
+"Video Compressor" = "視頻壓縮器";
+"The compressed image has been saved to the album." = "壓縮照片已被保存至相冊";
+"OK" = "好";
+"Cancel" = "取消";
+"Setting" = "設置";
+"Clear the cache" = "清除緩存";
+"Clear" = "清除";
+"Temporary files generated during the compression process will be cleared." = "壓縮過程中產生的臨時文件將被清除。";
