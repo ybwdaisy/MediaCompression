@@ -11,6 +11,7 @@ import Photos
 
 struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var progressList: [Float]
+    @Binding var compressFinished: Bool
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -21,12 +22,16 @@ struct ImagePickerView: UIViewControllerRepresentable {
         }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            let asset = info[.phAsset] as! PHAsset
-            let imageName = asset.value(forKey: "filename") as! String
-            let imageNameArr = imageName.components(separatedBy: ".")
-            let fileName = imageNameArr[0]
-            let extName = imageNameArr[1]
-            let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(extName)")
+            let asset = info[.phAsset] as? PHAsset
+            var outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(Int(Date().timeIntervalSince1970)).jpg")
+            var location = asset?.location
+            if asset != nil {
+                let imageName = asset!.value(forKey: "filename") as! String
+                let imageNameArr = imageName.components(separatedBy: ".")
+                let fileName = imageNameArr[0]
+                let extName = imageNameArr[1]
+                outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(extName)")
+            }
 
             let image = info[.originalImage] as? UIImage
             let imageURL = info[.imageURL] as? URL
@@ -41,7 +46,6 @@ struct ImagePickerView: UIViewControllerRepresentable {
             let imageProperties = CGImageSourceCopyMetadataAtIndex(imageSource!, 0, nil)
             let mutableMetadata = CGImageMetadataCreateMutableCopy(imageProperties!)
             
-            let location = asset.location;
             if location != nil {
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLatitudeRef, "N" as CFTypeRef)
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLatitude, location!.coordinate.latitude as CFTypeRef)
@@ -60,12 +64,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: outputURL)
             }) { saved, error in
                 if saved {
-                    let alert = UIAlertController(title: NSLocalizedString("The compressed image has been saved to the album.", comment: ""), message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { action in
-                    }))
-                    DispatchQueue.main.async {
-                        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
-                    }
+                    self.parent.compressFinished = true
                 }
             }
             parent.presentationMode.wrappedValue.dismiss()
