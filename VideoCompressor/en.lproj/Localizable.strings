@@ -8,12 +8,12 @@
 
 "Photos" = "Photos";
 "Videos" = "Videos";
-"Documents" = "Documents";
-"Video Compressor" = "Video Compressor";
+"Audios" = "Audios";
+"Media Compression" = "Media Compression";
 "The compressed image has been saved to the album." = "The compressed image has been saved to the album.";
 "OK" = "OK";
 "Cancel" = "Cancel";
 "Setting" = "Setting";
-"Clear the cache" = "Clear the cache";
+"Clear the Cache" = "Clear the Cache";
 "Clear" = "Clear";
 "Temporary files generated during the compression process will be cleared." = "Temporary files generated during the compression process will be cleared.";

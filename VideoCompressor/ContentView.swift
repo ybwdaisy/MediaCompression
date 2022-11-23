@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State var pickerType: NSNumber = 1
-    @State var isPresented: Bool = false
+    @State var isMediaPresented: Bool = false
     @State var progressList: [Float] = []
     @State var compressFinished: Bool = false
+    @State var isSharePresented: Bool = false
+    @State var activityItems: [Any] = []
     var body: some View {
         NavigationView {
             ZStack {
@@ -33,7 +35,7 @@ struct ContentView: View {
                         .cornerRadius(10.0)
                         .onTapGesture {
                             pickerType = 1
-                            isPresented = true
+                            isMediaPresented = true
                         }
                         HStack {
                             Image(systemName: "video")
@@ -50,14 +52,14 @@ struct ContentView: View {
                         .cornerRadius(10.0)
                         .onTapGesture {
                             pickerType = 2
-                            isPresented = true
+                            isMediaPresented = true
                             progressList = []
                         }
                         HStack {
-                            Image(systemName: "doc")
+                            Image(systemName: "waveform")
                                 .foregroundColor(Color(UIColor.systemBlue))
                                 .frame(width: 25.0)
-                            Text("Documents")
+                            Text("Audios")
                                 .foregroundColor(Color(UIColor.label))
                             Spacer()
                             Image(systemName: "chevron.right")
@@ -68,7 +70,7 @@ struct ContentView: View {
                         .cornerRadius(10.0)
                         .onTapGesture {
                             pickerType = 3
-                            isPresented = true
+                            isMediaPresented = true
                             progressList = []
                         }
                     }
@@ -79,7 +81,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-            .navigationTitle("Video Compressor")
+            .navigationTitle("Media Compression")
             .navigationBarItems(
                 trailing:
                     NavigationLink {
@@ -88,8 +90,17 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
             )
-            .sheet(isPresented: $isPresented, onDismiss: nil) {
-                SheetView(pickerType: $pickerType, progressList: $progressList, compressFinished: $compressFinished)
+            .sheet(isPresented: $isMediaPresented, onDismiss: nil) {
+                MediaView(
+                    pickerType: $pickerType,
+                    progressList: $progressList,
+                    compressFinished: $compressFinished,
+                    isSharePresented: $isSharePresented,
+                    activityItems: $activityItems
+                )
+            }
+            .sheet(isPresented: $isSharePresented, onDismiss: nil) {
+                ActivityViewController(activityItems: $activityItems)
             }
             .alert(isPresented: $compressFinished) {
                 Alert(title: Text("The compressed image has been saved to the album."))
@@ -98,20 +109,31 @@ struct ContentView: View {
     }
 }
 
-struct SheetView: View {
+struct MediaView: View {
     @Binding var pickerType: NSNumber
     @Binding var progressList: [Float]
     @Binding var compressFinished: Bool
+    @Binding var isSharePresented: Bool
+    @Binding var activityItems: [Any]
     
     var body: some View {
         if (pickerType == 1) {
-            ImagePickerView(progressList: $progressList, compressFinished: $compressFinished);
+            ImagePickerView(
+                progressList: $progressList,
+                compressFinished: $compressFinished
+            )
         }
         if (pickerType == 2) {
-            PHImagePickerView(progressList: $progressList);
+            PHImagePickerView(
+                progressList: $progressList
+            )
         }
         if (pickerType == 3) {
-            DocumentPickerView(progressList: $progressList);
+            DocumentPickerView(
+                progressList: $progressList,
+                isSharePresented: $isSharePresented,
+                activityItems: $activityItems
+            )
         }
     }
 }

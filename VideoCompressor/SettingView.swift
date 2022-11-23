@@ -18,7 +18,7 @@ struct SettingView: View {
                 HStack {
                     Image(systemName: "trash")
                         .foregroundColor(Color(UIColor.systemRed))
-                    Text("Clear the cache")
+                    Text("Clear the Cache")
                         .foregroundColor(Color(UIColor.label))
                     Spacer()
                     Text(cacheSize)
@@ -34,7 +34,7 @@ struct SettingView: View {
                 }
                 .alert(isPresented: $showClearCacheAlert) {
                     Alert(
-                        title: Text("Clear the cache"),
+                        title: Text("Clear the Cache"),
                         message: Text("Temporary files generated during the compression process will be cleared."),
                         primaryButton: .destructive(Text("Clear"), action: submitClearCache),
                         secondaryButton: .cancel(Text("Cancel"))
