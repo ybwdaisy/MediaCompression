@@ -1,6 +1,6 @@
 //
 //  SettingView.swift
-//  VideoCompressor
+//  MediaCompression
 //
 //  Created by ybw-macbook-pro on 2022/11/21.
 //
