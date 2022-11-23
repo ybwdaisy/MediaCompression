@@ -6,5 +6,6 @@
   
 */
 
+CFBundleDisplayName = "Media Compression";
 NSPhotoLibraryUsageDescription = "Select a photo or video from an album";
 NSPhotoLibraryAddUsageDescription = "Save a compressed photo or video to an album";

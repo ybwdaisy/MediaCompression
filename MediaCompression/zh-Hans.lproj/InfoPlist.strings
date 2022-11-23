@@ -6,5 +6,6 @@
   
 */
 
+CFBundleDisplayName = "多媒体压缩";
 NSPhotoLibraryUsageDescription = "从相册选择照片或视频";
 NSPhotoLibraryAddUsageDescription = "将照片或视频保存至相册";
