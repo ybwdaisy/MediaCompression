@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B5709846291B8353003540AC"
-               BuildableName = "VideoCompressor.app"
-               BlueprintName = "VideoCompressor"
-               ReferencedContainer = "container:VideoCompressor.xcodeproj">
+               BuildableName = "MediaCompression.app"
+               BlueprintName = "MediaCompression"
+               ReferencedContainer = "container:MediaCompression.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B5709846291B8353003540AC"
-            BuildableName = "VideoCompressor.app"
-            BlueprintName = "VideoCompressor"
-            ReferencedContainer = "container:VideoCompressor.xcodeproj">
+            BuildableName = "MediaCompression.app"
+            BlueprintName = "MediaCompression"
+            ReferencedContainer = "container:MediaCompression.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B5709846291B8353003540AC"
-            BuildableName = "VideoCompressor.app"
-            BlueprintName = "VideoCompressor"
-            ReferencedContainer = "container:VideoCompressor.xcodeproj">
+            BuildableName = "MediaCompression.app"
+            BlueprintName = "MediaCompression"
+            ReferencedContainer = "container:MediaCompression.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

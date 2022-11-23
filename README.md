@@ -1,2 +1,2 @@
-# VideoCompressor
-iOS Video Compressor App
+# MediaCompression
+iOS Media Compression App
