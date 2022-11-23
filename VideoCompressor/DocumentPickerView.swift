@@ -11,6 +11,8 @@ import Photos
 
 struct DocumentPickerView: UIViewControllerRepresentable {
     @Binding var progressList: [Float]
+    @Binding var isSharePresented: Bool
+    @Binding var activityItems: [Any]
     @Environment(\.presentationMode) var presentationMode
 
     class Coordinator: NSObject, UINavigationControllerDelegate, UIDocumentPickerDelegate {
@@ -50,7 +52,8 @@ struct DocumentPickerView: UIViewControllerRepresentable {
                         case .completed:
                             exportSessionTimer.invalidate()
                             self.parent.progressList[0] = 0.0
-                            self.shareFile(url: outputURL)
+                            self.parent.activityItems = [outputURL]
+                            self.parent.isSharePresented = true
                         case .failed:
                             break
                         case .cancelled:
@@ -62,13 +65,6 @@ struct DocumentPickerView: UIViewControllerRepresentable {
             }
             
             parent.presentationMode.wrappedValue.dismiss()
-        }
-        
-        func shareFile(url: URL) {
-            let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-            DispatchQueue.main.async {
-                UIApplication.shared.keyWindow?.rootViewController?.present(activityController, animated: true)
-            }
         }
     }
     
