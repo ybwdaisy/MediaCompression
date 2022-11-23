@@ -54,10 +54,10 @@ struct ContentView: View {
                             progressList = []
                         }
                         HStack {
-                            Image(systemName: "doc")
+                            Image(systemName: "waveform")
                                 .foregroundColor(Color(UIColor.systemBlue))
                                 .frame(width: 25.0)
-                            Text("Documents")
+                            Text("Audios")
                                 .foregroundColor(Color(UIColor.label))
                             Spacer()
                             Image(systemName: "chevron.right")
@@ -79,7 +79,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-            .navigationTitle("Video Compressor")
+            .navigationTitle("Media Compression")
             .navigationBarItems(
                 trailing:
                     NavigationLink {
