@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  VideoCompressor
+
+  Created by ybw-macbook-pro on 2022/11/14.
+  
+*/
+
+NSPhotoLibraryUsageDescription = "アルバムから写真や動画を選ぶ";
+NSPhotoLibraryAddUsageDescription = "写真や動画をカメラロールに保存";

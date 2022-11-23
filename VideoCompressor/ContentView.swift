@@ -14,41 +14,71 @@ struct ContentView: View {
     @State var compressFinished: Bool = false
     var body: some View {
         NavigationView {
-            VStack {
-                HStack {
-                    Spacer()
-                    Button() {
-                        pickerType = 1
-                        isPresented = true
-                    } label: {
-                        Label("Photo", systemImage: "photo")
-                    }
-                    Button {
-                        pickerType = 2
-                        isPresented = true
-                        progressList = []
-                    } label: {
-                        Label("Video", systemImage: "photo.on.rectangle.angled")
-                    }
-                    Button {
-                        pickerType = 3
-                        isPresented = true
-                        progressList = []
-                    } label: {
-                        Label("Document", systemImage: "arrow.triangle.2.circlepath.doc.on.clipboard")
-                    }
-                    Spacer()
-                }
-                Spacer()
-                List(progressList, id: \.description) { progress in
+            ZStack {
+                Color(UIColor.systemGray6).edgesIgnoringSafeArea(.all)
+                VStack {
                     VStack {
-                        ProgressView(String(format: "%.0f %%", min(progress, 1.0) * 100.0), value: progress, total: 1.0)
-                            .padding()
+                        HStack {
+                            Image(systemName: "photo")
+                                .foregroundColor(Color(UIColor.systemBlue))
+                                .frame(width: 25.0)
+                            Text("Photos")
+                                .foregroundColor(Color(UIColor.label))
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(UIColor.systemGray2))
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10.0)
+                        .onTapGesture {
+                            pickerType = 1
+                            isPresented = true
+                        }
+                        HStack {
+                            Image(systemName: "video")
+                                .foregroundColor(Color(UIColor.systemBlue))
+                                .frame(width: 25.0)
+                            Text("Videos")
+                                .foregroundColor(Color(UIColor.label))
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(UIColor.systemGray2))
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10.0)
+                        .onTapGesture {
+                            pickerType = 2
+                            isPresented = true
+                            progressList = []
+                        }
+                        HStack {
+                            Image(systemName: "doc")
+                                .foregroundColor(Color(UIColor.systemBlue))
+                                .frame(width: 25.0)
+                            Text("Documents")
+                                .foregroundColor(Color(UIColor.label))
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(UIColor.systemGray2))
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10.0)
+                        .onTapGesture {
+                            pickerType = 3
+                            isPresented = true
+                            progressList = []
+                        }
                     }
+                    .padding(EdgeInsets(top: 20.0, leading: 20.0, bottom: 0, trailing: 20.0))
+                    List(progressList, id: \.description) { progress in
+                        ProgressView(String(format: "%.0f %%", min(progress, 1.0) * 100.0), value: progress, total: 1.0)
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
-            .padding(EdgeInsets(top: CGFloat(20.0), leading: 0, bottom: 0, trailing: 0))
             .navigationTitle("Video Compressor")
             .navigationBarItems(
                 trailing:
