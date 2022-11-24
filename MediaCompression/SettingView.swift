@@ -10,6 +10,9 @@ import SwiftUI
 struct SettingView: View {
     @State private var showClearCacheAlert = false
     @State private var cacheSize: String = ""
+    @State private var isSharePresented: Bool = false
+    @State private var activityItems: [Any] = []
+    @State private var version: String = ""
 
     var body: some View {
         ZStack {
@@ -32,22 +35,67 @@ struct SettingView: View {
                 .onTapGesture {
                     showClearCacheAlert = true
                 }
-                .alert(isPresented: $showClearCacheAlert) {
-                    Alert(
-                        title: Text("Clear the Cache"),
-                        message: Text("Temporary files generated during the compression process will be cleared."),
-                        primaryButton: .destructive(Text("Clear"), action: submitClearCache),
-                        secondaryButton: .cancel(Text("Cancel"))
-                    )
+                HStack {
+                    Image(systemName: "square.and.arrow.up")
+                        .foregroundColor(Color(UIColor.systemBlue))
+                    Text("Share with Friends")
+                        .foregroundColor(Color(UIColor.label))
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(Color(UIColor.systemGray2))
+                }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10.0)
+                .onTapGesture {
+                    isSharePresented = true
+                    activityItems = ["Media Compression"]
+                }
+                HStack {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(Color(UIColor.systemBlue))
+                    Text("Version")
+                        .foregroundColor(Color(UIColor.label))
+                    Spacer()
+                    Text(version)
+                        .foregroundColor(Color(UIColor.secondaryLabel))
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(Color(UIColor.systemGray2))
+                }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10.0)
+                .onTapGesture {
+                    isSharePresented = true
+                    activityItems = ["Media Compression"]
                 }
                 Spacer()
             }
             .padding(EdgeInsets(top: CGFloat(20.0), leading: 20.0, bottom: 0, trailing: 20.0))
+            .alert(isPresented: $showClearCacheAlert) {
+                Alert(
+                    title: Text("Clear the Cache"),
+                    message: Text("Temporary files generated during the compression process will be cleared."),
+                    primaryButton: .destructive(Text("Clear"), action: submitClearCache),
+                    secondaryButton: .cancel(Text("Cancel"))
+                )
+            }
+            .sheet(isPresented: $isSharePresented, onDismiss: nil) {
+                ActivityViewController(activityItems: $activityItems)
+            }
         }
         .navigationTitle("Setting")
         .onAppear {
             cacheSize = self.calculateCache()
+            version = self.getVersion()
         }
+    }
+    
+    private func getVersion() -> String {
+        let infoDictionary = Bundle.main.infoDictionary
+        let version = (infoDictionary?["CFBundleShortVersionString"] as? String)!
+        let buildNumber = (infoDictionary?["CFBundleVersion"] as? String)!
+        return "\(version)(\(buildNumber))"
     }
     
     private func submitClearCache() {
