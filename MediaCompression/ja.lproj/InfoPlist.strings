@@ -6,5 +6,6 @@
   
 */
 
+CFBundleDisplayName = "マルチメディア圧縮";
 NSPhotoLibraryUsageDescription = "アルバムから写真や動画を選ぶ";
 NSPhotoLibraryAddUsageDescription = "写真や動画をカメラロールに保存";
