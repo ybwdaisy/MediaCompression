@@ -65,10 +65,6 @@ struct SettingView: View {
                 .padding()
                 .background(Color.white)
                 .cornerRadius(10.0)
-                .onTapGesture {
-                    isSharePresented = true
-                    activityItems = ["Media Compression"]
-                }
                 Spacer()
             }
             .padding(EdgeInsets(top: CGFloat(20.0), leading: 20.0, bottom: 0, trailing: 20.0))
