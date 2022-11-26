@@ -51,7 +51,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
                             break
                         case .completed:
                             exportSessionTimer.invalidate()
-                            self.parent.progressList[0] = 0.0
+                            self.parent.progressList[index] = 0.0
                             self.parent.activityItems = [outputURL]
                             self.parent.isSharePresented = true
                         case .failed:
