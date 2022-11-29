@@ -24,7 +24,6 @@ struct ImagePickerView: UIViewControllerRepresentable {
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             let asset = info[.phAsset] as? PHAsset
             var outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(Int(Date().timeIntervalSince1970)).jpg")
-            var location = asset?.location
             if asset != nil {
                 let imageName = asset!.value(forKey: "filename") as! String
                 let imageNameArr = imageName.components(separatedBy: ".")
@@ -45,23 +44,28 @@ struct ImagePickerView: UIViewControllerRepresentable {
             let imageSource = CGImageSourceCreateWithURL(imageURL as! CFURL, nil)
             let imageProperties = CGImageSourceCopyMetadataAtIndex(imageSource!, 0, nil)
             let mutableMetadata = CGImageMetadataCreateMutableCopy(imageProperties!)
-            
+
+            var location = asset?.location
             if location != nil {
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLatitudeRef, "N" as CFTypeRef)
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLatitude, location!.coordinate.latitude as CFTypeRef)
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLongitudeRef, "E" as CFTypeRef)
                 CGImageMetadataSetValueMatchingImageProperty(mutableMetadata!, kCGImagePropertyGPSDictionary, kCGImagePropertyGPSLongitude, location!.coordinate.longitude as CFTypeRef)
             }
-            
-            // TODO: set asset.creationDate
-            
+
             CGImageDestinationAddImageAndMetadata(destination!, UIImage(data: data!)!.cgImage!, mutableMetadata, nil)
             CGImageDestinationFinalize(destination!)
             
             try? mutableData.write(to: outputURL)
             
             PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: outputURL)
+                let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: outputURL)
+                if asset == nil {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                    let createDate = dateFormatter.date(from: "2022-11-29 09:17:00")
+                    assetChangeRequest?.creationDate = createDate
+                }
             }) { saved, error in
                 if saved {
                     self.parent.compressFinished = true
