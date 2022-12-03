@@ -57,6 +57,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
         
         func compressVideo(inputURL: URL, outputURL: URL, index: Int, fileType: AVFileType) {
             let urlAsset = AVURLAsset(url: inputURL, options: nil)
+            let creationDate = urlAsset.creationDate?.dateValue
             
             guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetHighestQuality) else { return }
             exportSession.outputURL = outputURL
@@ -78,7 +79,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                         break
                     case .completed:
                         exportSessionTimer.invalidate()
-                        self.saveToAlbum(url: outputURL, index: index)
+                    self.saveToAlbum(url: outputURL, index: index, creationDate: creationDate!)
                     case .failed:
                         break
                     case .cancelled:
@@ -90,9 +91,12 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             
         }
         
-        func saveToAlbum(url: URL, index: Int) {
+        func saveToAlbum(url: URL, index: Int, creationDate: Any) {
             PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
+                let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
+                if creationDate != nil {
+                    assetChangeRequest?.creationDate = creationDate as? Date;
+                }
             }) { saved, error in
                 if saved {
                     self.parent.progressList[index] = 0.0
