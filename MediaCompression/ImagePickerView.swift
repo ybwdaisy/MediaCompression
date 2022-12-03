@@ -53,7 +53,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
             
             PHPhotoLibrary.shared().performChanges({
                 let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: outputURL)
-                if (creationDate != nil) {
+                if creationDate != nil {
                     assetChangeRequest?.creationDate = creationDate as? Date
                 }
             }) { saved, error in
