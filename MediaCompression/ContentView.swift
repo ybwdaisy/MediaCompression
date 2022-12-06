@@ -14,6 +14,8 @@ struct ContentView: View {
     @State var compressFinished: Bool = false
     @State var isSharePresented: Bool = false
     @State var activityItems: [Any] = []
+    @State var isActionSheetPresented: Bool = false
+    @State var imagePickerType: NSNumber = 1
     var body: some View {
         NavigationView {
             ZStack {
@@ -34,8 +36,7 @@ struct ContentView: View {
                         .background(Color.white)
                         .cornerRadius(10.0)
                         .onTapGesture {
-                            pickerType = 1
-                            isMediaPresented = true
+                            isActionSheetPresented = true
                         }
                         HStack {
                             Image(systemName: "video")
@@ -96,7 +97,8 @@ struct ContentView: View {
                     progressList: $progressList,
                     compressFinished: $compressFinished,
                     isSharePresented: $isSharePresented,
-                    activityItems: $activityItems
+                    activityItems: $activityItems,
+                    imagePickerType: $imagePickerType
                 )
             }
             .sheet(isPresented: $isSharePresented, onDismiss: nil) {
@@ -104,6 +106,33 @@ struct ContentView: View {
             }
             .alert(isPresented: $compressFinished) {
                 Alert(title: Text("The compressed image has been saved to the album."))
+            }
+            .actionSheet(isPresented: $isActionSheetPresented) {
+                ActionSheet(
+                    title: Text("Select photos or take photos"),
+                    buttons: [
+                        .default(Text("Select photos"), action: {
+                            cameraUsagePermissions(authorizedBlock: {
+                                imagePickerType = 1
+                                isMediaPresented = true
+                                pickerType = 1
+                                progressList = []
+                            }, deniedBlock: {
+                                
+                            })
+                        }),
+                        .default(Text("Take photos"), action: {
+                            cameraUsagePermissions(authorizedBlock: {
+                                imagePickerType = 2
+                                pickerType = 1
+                                isMediaPresented = true
+                            }, deniedBlock: {
+                                
+                            })
+                        }),
+                        .cancel(Text("Cancel"))
+                    ]
+                );
             }
         }
     }
@@ -115,12 +144,14 @@ struct MediaView: View {
     @Binding var compressFinished: Bool
     @Binding var isSharePresented: Bool
     @Binding var activityItems: [Any]
+    @Binding var imagePickerType: NSNumber
     
     var body: some View {
         if (pickerType == 1) {
             ImagePickerView(
                 progressList: $progressList,
-                compressFinished: $compressFinished
+                compressFinished: $compressFinished,
+                imagePickerType: $imagePickerType
             )
         }
         if (pickerType == 2) {

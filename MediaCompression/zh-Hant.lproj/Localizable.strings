@@ -9,6 +9,9 @@
 "Photos" = "照片";
 "Videos" = "視頻";
 "Audios" = "音頻";
+"Select photos or take photos" = "選擇照片或拍照";
+"Select photos" = "選擇照片";
+"Take photos" = "拍照";
 "Media Compression" = "多媒體壓縮";
 "The compressed image has been saved to the album." = "壓縮照片已被保存至相冊";
 "OK" = "好";

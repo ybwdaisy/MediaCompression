@@ -9,3 +9,4 @@
 CFBundleDisplayName = "多媒體壓縮";
 NSPhotoLibraryUsageDescription = "從相冊選擇照片或視頻";
 NSPhotoLibraryAddUsageDescription = "將照片或視頻保存至相冊";
+NSCameraUsageDescription = "拍攝照片或視頻";

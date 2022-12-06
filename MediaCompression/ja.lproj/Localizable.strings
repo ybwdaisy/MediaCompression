@@ -9,6 +9,9 @@
 "Photos" = "写真";
 "Videos" = "動画";
 "Audios" = "オーディオ";
+"Select photos or take photos" = "写真を選択するか写真を撮る";
+"Select photos" = "写真を選択";
+"Take photos" = "写真を撮る";
 "Media Compression" = "マルチメディア圧縮";
 "The compressed image has been saved to the album." = "圧縮された写真がアルバムに保存されました";
 "OK" = "わかった";
