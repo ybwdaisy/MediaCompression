@@ -9,11 +9,11 @@
 "Photos" = "Photos";
 "Videos" = "Videos";
 "Audios" = "Audios";
-"Select photos or take photos" = "选择照片或拍照";
-"Select videos" = "选择照片";
-"Take photos" = "拍照";
+"Select photos or take photos" = "Select photos or take photos";
+"Select photos" = "Select photos";
+"Take photos" = "Take photos";
 "Media Compression" = "Media Compression";
-"The compressed image has been saved to the album." = "The compressed image has been saved to the album.";
+"All items have been compressed." = "All items have been compressed.";
 "OK" = "OK";
 "Cancel" = "Cancel";
 "Setting" = "Setting";

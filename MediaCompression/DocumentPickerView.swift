@@ -23,8 +23,10 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         }
         
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            let total = urls.count
             for (index, url) in urls.enumerated() {
                 self.parent.progressList.append(0.0)
+                self.parent.activityItems.append(url)
                 let fileName = url.deletingPathExtension().lastPathComponent
                 let inputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(UUID().uuidString).\(url.pathExtension)")
                 try? FileManager.default.copyItem(at: url, to: inputURL)
@@ -51,9 +53,11 @@ struct DocumentPickerView: UIViewControllerRepresentable {
                             break
                         case .completed:
                             exportSessionTimer.invalidate()
+                            self.parent.activityItems[index] = outputURL
                             self.parent.progressList[index] = 0.0
-                            self.parent.activityItems = [outputURL]
-                            self.parent.isSharePresented = true
+                            if index == total - 1 {
+                                self.parent.isSharePresented = true
+                            }
                         case .failed:
                             break
                         case .cancelled:
@@ -76,7 +80,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         let controller = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.audio], asCopy: true)
         controller.modalPresentationStyle = .fullScreen
         controller.shouldShowFileExtensions = true
-        controller.allowsMultipleSelection = false
+        controller.allowsMultipleSelection = true
         controller.delegate = context.coordinator
         return controller
     }
