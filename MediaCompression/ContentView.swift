@@ -88,7 +88,7 @@ struct ContentView: View {
                     NavigationLink {
                         SettingView()
                     } label: {
-                        Image(systemName: "gear")
+                        Image(systemName: "gearshape")
                     }
             )
             .sheet(isPresented: $isMediaPresented, onDismiss: nil) {

@@ -36,6 +36,21 @@ struct SettingView: View {
                     showClearCacheAlert = true
                 }
                 HStack {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(Color(UIColor.systemBlue))
+                    Text("Open App Settings")
+                        .foregroundColor(Color(UIColor.label))
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(Color(UIColor.systemGray2))
+                }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10.0)
+                .onTapGesture {
+                    openSettings()
+                }
+                HStack {
                     Image(systemName: "square.and.arrow.up")
                         .foregroundColor(Color(UIColor.systemBlue))
                     Text("Share with Friends")
@@ -84,6 +99,18 @@ struct SettingView: View {
         .onAppear {
             cacheSize = self.calculateCache()
             version = self.getVersion()
+        }
+    }
+    
+    private func openSettings() -> Void {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else {
+            return
+        }
+        
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
         }
     }
     
