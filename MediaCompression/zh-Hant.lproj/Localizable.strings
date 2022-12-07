@@ -9,6 +9,9 @@
 "Photos" = "照片";
 "Videos" = "視頻";
 "Audios" = "音頻";
+"Select photos or take photos" = "選擇照片或拍照";
+"Select photos" = "選擇照片";
+"Take photos" = "拍照";
 "Media Compression" = "多媒體壓縮";
 "The compressed image has been saved to the album." = "壓縮照片已被保存至相冊";
 "OK" = "好";
@@ -19,3 +22,4 @@
 "Temporary files generated during the compression process will be cleared." = "壓縮過程中產生的臨時文件將被清除。";
 "Share with Friends" = "分享給朋友";
 "Version" = "版本";
+"Open App Settings" = "打開App設定";
