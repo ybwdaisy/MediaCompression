@@ -102,7 +102,7 @@ struct ContentView: View {
                     title: Text("Select photos or take photos"),
                     buttons: [
                         .default(Text("Select photos"), action: {
-                            cameraUsagePermissions(authorizedBlock: {
+                            photoLibraryUsagePermissions(authorizedBlock: {
                                 imagePickerSourceType = .photoLibrary
                                 isImagePickerPresented = true
                             }, deniedBlock: {
