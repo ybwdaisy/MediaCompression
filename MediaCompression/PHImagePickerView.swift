@@ -12,6 +12,7 @@ import Photos
 
 struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var progressList: [Float]
+    @Binding var compressFinished: Bool
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: PHPickerViewControllerDelegate {
@@ -23,6 +24,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             if !results.isEmpty {
+                let total = results.count
                 let itemProviders: [NSItemProvider] = results.map(\.itemProvider)
                 
                 for (index, itemProvider) in itemProviders.enumerated() {
@@ -44,7 +46,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                         }
 
                         DispatchQueue.main.async {
-                            self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl, index: index, fileType: fileType)
+                            self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl, index: index, fileType: fileType, finished: index == total - 1)
                         }
                     }
                 }
@@ -55,7 +57,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             }
         }
         
-        func compressVideo(inputURL: URL, outputURL: URL, index: Int, fileType: AVFileType) {
+        func compressVideo(inputURL: URL, outputURL: URL, index: Int, fileType: AVFileType, finished: Bool) {
             let urlAsset = AVURLAsset(url: inputURL, options: nil)
             let creationDate = urlAsset.creationDate?.dateValue
             
@@ -78,8 +80,8 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                     case .exporting:
                         break
                     case .completed:
+                        self.saveToAlbum(url: outputURL, index: index, creationDate: creationDate!, finished: finished)
                         exportSessionTimer.invalidate()
-                    self.saveToAlbum(url: outputURL, index: index, creationDate: creationDate!)
                     case .failed:
                         break
                     case .cancelled:
@@ -91,7 +93,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             
         }
         
-        func saveToAlbum(url: URL, index: Int, creationDate: Any) {
+        func saveToAlbum(url: URL, index: Int, creationDate: Any, finished: Bool) {
             PHPhotoLibrary.shared().performChanges({
                 let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
                 if creationDate != nil {
@@ -100,6 +102,9 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             }) { saved, error in
                 if saved {
                     self.parent.progressList[index] = 0.0
+                }
+                if finished {
+                    self.parent.compressFinished = true
                 }
             }
         }

@@ -10,9 +10,8 @@ import SwiftUI
 import Photos
 
 struct ImagePickerView: UIViewControllerRepresentable {
-    @Binding var progressList: [Float]
     @Binding var compressFinished: Bool
-    @Binding var imagePickerType: NSNumber
+    @Binding var sourceType: UIImagePickerController.SourceType
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -83,9 +82,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let controller = UIImagePickerController();
         controller.delegate = context.coordinator;
-        if (imagePickerType == 2 && UIImagePickerController.isSourceTypeAvailable(.camera)) {
-            controller.sourceType = .camera
-        }
+        controller.sourceType = sourceType
         return controller;
         
     }

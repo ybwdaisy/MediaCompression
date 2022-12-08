@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var pickerType: NSNumber = 1
-    @State var isMediaPresented: Bool = false
+    @State var isImagePickerActionSheetPresented: Bool = false
+    @State var isImagePickerPresented: Bool = false
+    @State var imagePickerSourceType: UIImagePickerController.SourceType = .photoLibrary
+    
+    @State var isVideoPickerPresented: Bool = false
+    
+    @State var isDocumentPickerPresented: Bool = false
+    @State var isDocumentSharePresented: Bool = false
+    @State var documentActivityItems: [Any] = []
+
     @State var progressList: [Float] = []
     @State var compressFinished: Bool = false
-    @State var isSharePresented: Bool = false
-    @State var activityItems: [Any] = []
-    @State var isActionSheetPresented: Bool = false
+    
     @State var imagePickerType: NSNumber = 1
     var body: some View {
         NavigationView {
@@ -36,7 +42,8 @@ struct ContentView: View {
                         .background(Color.white)
                         .cornerRadius(10.0)
                         .onTapGesture {
-                            isActionSheetPresented = true
+                            progressList = []
+                            isImagePickerActionSheetPresented = true
                         }
                         HStack {
                             Image(systemName: "video")
@@ -52,9 +59,8 @@ struct ContentView: View {
                         .background(Color.white)
                         .cornerRadius(10.0)
                         .onTapGesture {
-                            pickerType = 2
-                            isMediaPresented = true
                             progressList = []
+                            isVideoPickerPresented = true
                         }
                         HStack {
                             Image(systemName: "waveform")
@@ -70,9 +76,9 @@ struct ContentView: View {
                         .background(Color.white)
                         .cornerRadius(10.0)
                         .onTapGesture {
-                            pickerType = 3
-                            isMediaPresented = true
                             progressList = []
+                            documentActivityItems = []
+                            isDocumentPickerPresented = true
                         }
                     }
                     .padding(EdgeInsets(top: 20.0, leading: 20.0, bottom: 0, trailing: 20.0))
@@ -91,41 +97,22 @@ struct ContentView: View {
                         Image(systemName: "gearshape")
                     }
             )
-            .sheet(isPresented: $isMediaPresented, onDismiss: nil) {
-                MediaView(
-                    pickerType: $pickerType,
-                    progressList: $progressList,
-                    compressFinished: $compressFinished,
-                    isSharePresented: $isSharePresented,
-                    activityItems: $activityItems,
-                    imagePickerType: $imagePickerType
-                )
-            }
-            .sheet(isPresented: $isSharePresented, onDismiss: nil) {
-                ActivityViewController(activityItems: $activityItems)
-            }
-            .alert(isPresented: $compressFinished) {
-                Alert(title: Text("The compressed image has been saved to the album."))
-            }
-            .actionSheet(isPresented: $isActionSheetPresented) {
+            .actionSheet(isPresented: $isImagePickerActionSheetPresented) {
                 ActionSheet(
                     title: Text("Select photos or take photos"),
                     buttons: [
                         .default(Text("Select photos"), action: {
                             cameraUsagePermissions(authorizedBlock: {
-                                imagePickerType = 1
-                                isMediaPresented = true
-                                pickerType = 1
-                                progressList = []
+                                imagePickerSourceType = .photoLibrary
+                                isImagePickerPresented = true
                             }, deniedBlock: {
                                 
                             })
                         }),
                         .default(Text("Take photos"), action: {
                             cameraUsagePermissions(authorizedBlock: {
-                                imagePickerType = 2
-                                pickerType = 1
-                                isMediaPresented = true
+                                imagePickerSourceType = .camera
+                                isImagePickerPresented = true
                             }, deniedBlock: {
                                 
                             })
@@ -134,37 +121,32 @@ struct ContentView: View {
                     ]
                 );
             }
-        }
-    }
-}
-
-struct MediaView: View {
-    @Binding var pickerType: NSNumber
-    @Binding var progressList: [Float]
-    @Binding var compressFinished: Bool
-    @Binding var isSharePresented: Bool
-    @Binding var activityItems: [Any]
-    @Binding var imagePickerType: NSNumber
-    
-    var body: some View {
-        if (pickerType == 1) {
-            ImagePickerView(
-                progressList: $progressList,
-                compressFinished: $compressFinished,
-                imagePickerType: $imagePickerType
-            )
-        }
-        if (pickerType == 2) {
-            PHImagePickerView(
-                progressList: $progressList
-            )
-        }
-        if (pickerType == 3) {
-            DocumentPickerView(
-                progressList: $progressList,
-                isSharePresented: $isSharePresented,
-                activityItems: $activityItems
-            )
+            .sheet(isPresented: $isImagePickerPresented, onDismiss: nil) {
+                ImagePickerView(
+                    compressFinished: $compressFinished,
+                    sourceType: $imagePickerSourceType
+                )
+            }
+            .sheet(isPresented: $isVideoPickerPresented, onDismiss: nil) {
+                PHImagePickerView(
+                    progressList: $progressList,
+                    compressFinished: $compressFinished
+                )
+            }
+            .sheet(isPresented: $isDocumentPickerPresented, onDismiss: nil) {
+                DocumentPickerView(
+                    progressList: $progressList,
+                    isSharePresented: $isDocumentSharePresented,
+                    activityItems: $documentActivityItems
+                )
+            }
+            .sheet(isPresented: $isDocumentSharePresented, onDismiss: nil) {
+                ActivityViewController(activityItems: $documentActivityItems)
+            }
+            .alert(isPresented: $compressFinished) {
+                Alert(title: Text("All items have been compressed."))
+            }
+            
         }
     }
 }
