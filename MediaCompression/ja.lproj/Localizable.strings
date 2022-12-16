@@ -23,3 +23,5 @@
 "Share with Friends" = "友達と分け合う";
 "Version" = "バージョン";
 "Open App Settings" = "App設定を開く";
+"Permissions Denied!" = "権限が拒否されました";
+"Open App Settings to Set Permissions" = "変更権限の設定を開く";

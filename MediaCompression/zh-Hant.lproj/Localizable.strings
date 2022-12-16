@@ -23,3 +23,5 @@
 "Share with Friends" = "分享給朋友";
 "Version" = "版本";
 "Open App Settings" = "打開App設定";
+"Permissions Denied!" = "許可權被拒絕";
+"Open App Settings to Set Permissions" = "打開設定修改許可權";

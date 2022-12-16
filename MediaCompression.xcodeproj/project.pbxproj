@@ -114,7 +114,6 @@
 		B5709849291B8353003540AC /* MediaCompression */ = {
 			isa = PBXGroup;
 			children = (
-				B5764960291FACA800C7F0D5 /* Info.plist */,
 				B570984A291B8353003540AC /* MediaCompressionApp.swift */,
 				B570984C291B8353003540AC /* ContentView.swift */,
 				B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */,
@@ -123,6 +122,7 @@
 				B50702BF292B0DCF003A5057 /* SettingView.swift */,
 				B5339870292E0E3E00144FA9 /* ActivityViewController.swift */,
 				B5C7E252293EEDED00F9FFF1 /* Utils.swift */,
+				B5764960291FACA800C7F0D5 /* Info.plist */,
 				B570984E291B8354003540AC /* Assets.xcassets */,
 				B5D7E4BF29222D8100138B10 /* Localizable.strings */,
 				B5D7E4C529222FB800138B10 /* InfoPlist.strings */,
