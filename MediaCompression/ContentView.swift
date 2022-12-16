@@ -21,6 +21,8 @@ struct ContentView: View {
     @State var progressList: [Float] = []
     @State var compressFinished: Bool = false
     
+    @State var permissionsDeniedPresented: Bool = false;
+    
     @State var imagePickerType: NSNumber = 1
     var body: some View {
         NavigationView {
@@ -106,7 +108,7 @@ struct ContentView: View {
                                 imagePickerSourceType = .photoLibrary
                                 isImagePickerPresented = true
                             }, deniedBlock: {
-                                
+                                permissionsDeniedPresented = true
                             })
                         }),
                         .default(Text("Take photos"), action: {
@@ -114,7 +116,7 @@ struct ContentView: View {
                                 imagePickerSourceType = .camera
                                 isImagePickerPresented = true
                             }, deniedBlock: {
-                                
+                                permissionsDeniedPresented = true
                             })
                         }),
                         .cancel(Text("Cancel"))
@@ -145,6 +147,14 @@ struct ContentView: View {
             }
             .alert(isPresented: $compressFinished) {
                 Alert(title: Text("All items have been compressed."))
+            }
+            .alert(isPresented: $permissionsDeniedPresented) {
+                Alert(
+                    title: Text("Permissions Denied!"),
+                    message: Text("Open App Settings to Set Permissions"),
+                    primaryButton: .default(Text("OK"), action: openSettings),
+                    secondaryButton: .cancel(Text("Cancel"))
+                )
             }
             
         }
