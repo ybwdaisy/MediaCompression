@@ -19,9 +19,8 @@ struct ContentView: View {
     @State var documentActivityItems: [Any] = []
 
     @State var progressList: [Float] = []
-    @State var compressFinished: Bool = false
-    
-    @State var permissionsDeniedPresented: Bool = false;
+    @State var alertPresented: Bool = false
+    @State var alertType: NSNumber = 1
     
     @State var imagePickerType: NSNumber = 1
     var body: some View {
@@ -46,6 +45,7 @@ struct ContentView: View {
                         .onTapGesture {
                             progressList = []
                             isImagePickerActionSheetPresented = true
+                            alertType = 1
                         }
                         HStack {
                             Image(systemName: "video")
@@ -63,6 +63,7 @@ struct ContentView: View {
                         .onTapGesture {
                             progressList = []
                             isVideoPickerPresented = true
+                            alertType = 1
                         }
                         HStack {
                             Image(systemName: "waveform")
@@ -81,6 +82,7 @@ struct ContentView: View {
                             progressList = []
                             documentActivityItems = []
                             isDocumentPickerPresented = true
+                            alertType = 1
                         }
                     }
                     .padding(EdgeInsets(top: 20.0, leading: 20.0, bottom: 0, trailing: 20.0))
@@ -108,7 +110,8 @@ struct ContentView: View {
                                 imagePickerSourceType = .photoLibrary
                                 isImagePickerPresented = true
                             }, deniedBlock: {
-                                permissionsDeniedPresented = true
+                                alertPresented = true
+                                alertType = 2
                             })
                         }),
                         .default(Text("Take photos"), action: {
@@ -116,7 +119,8 @@ struct ContentView: View {
                                 imagePickerSourceType = .camera
                                 isImagePickerPresented = true
                             }, deniedBlock: {
-                                permissionsDeniedPresented = true
+                                alertPresented = true
+                                alertType = 2
                             })
                         }),
                         .cancel(Text("Cancel"))
@@ -125,38 +129,41 @@ struct ContentView: View {
             }
             .sheet(isPresented: $isImagePickerPresented, onDismiss: nil) {
                 ImagePickerView(
-                    compressFinished: $compressFinished,
+                    compressFinished: $alertPresented,
                     sourceType: $imagePickerSourceType
                 )
             }
             .sheet(isPresented: $isVideoPickerPresented, onDismiss: nil) {
                 PHImagePickerView(
                     progressList: $progressList,
-                    compressFinished: $compressFinished
+                    compressFinished: $alertPresented
                 )
             }
             .sheet(isPresented: $isDocumentPickerPresented, onDismiss: nil) {
                 DocumentPickerView(
                     progressList: $progressList,
                     isSharePresented: $isDocumentSharePresented,
-                    activityItems: $documentActivityItems
+                    activityItems: $documentActivityItems,
+                    compressFinished: $alertPresented
                 )
             }
             .sheet(isPresented: $isDocumentSharePresented, onDismiss: nil) {
                 ActivityViewController(activityItems: $documentActivityItems)
             }
-            .alert(isPresented: $compressFinished) {
-                Alert(title: Text("All items have been compressed."))
+            .alert(isPresented: $alertPresented) {
+                if (alertType == 1) {
+                    return Alert(title: Text("All items have been compressed."))
+                } else if (alertType == 2) {
+                    return Alert(
+                        title: Text("Permissions Denied!"),
+                        message: Text("Open App Settings to Set Permissions"),
+                        primaryButton: .default(Text("OK"), action: openSettings),
+                        secondaryButton: .cancel(Text("Cancel"))
+                    )
+                } else {
+                    return Alert(title: Text(""))
+                }
             }
-            .alert(isPresented: $permissionsDeniedPresented) {
-                Alert(
-                    title: Text("Permissions Denied!"),
-                    message: Text("Open App Settings to Set Permissions"),
-                    primaryButton: .default(Text("OK"), action: openSettings),
-                    secondaryButton: .cancel(Text("Cancel"))
-                )
-            }
-            
         }
     }
 }

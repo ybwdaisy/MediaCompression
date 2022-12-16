@@ -13,6 +13,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
     @Binding var progressList: [Float]
     @Binding var isSharePresented: Bool
     @Binding var activityItems: [Any]
+    @Binding var compressFinished: Bool
     @Environment(\.presentationMode) var presentationMode
 
     class Coordinator: NSObject, UINavigationControllerDelegate, UIDocumentPickerDelegate {
@@ -32,43 +33,67 @@ struct DocumentPickerView: UIViewControllerRepresentable {
                 try? FileManager.default.copyItem(at: url, to: inputURL)
                 let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)")
                 
-                let urlAsset = AVURLAsset(url: inputURL, options: nil)
-                guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetAppleM4A) else { return }
-                exportSession.outputURL = outputURL
-                exportSession.outputFileType = .m4a
-                
-                let exportSessionTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
-                    let progress = Float(exportSession.progress)
-                    self.parent.progressList[index] = progress
-                }
-                exportSessionTimer.fire()
-                
-                exportSession.exportAsynchronously {
-                    switch exportSession.status {
-                        case .unknown:
-                            break
-                        case .waiting:
-                            break
-                        case .exporting:
-                            break
-                        case .completed:
-                            exportSessionTimer.invalidate()
-                            self.parent.activityItems[index] = outputURL
-                            self.parent.progressList[index] = 0.0
-                            if index == total - 1 {
-                                self.parent.isSharePresented = true
-                            }
-                        case .failed:
-                            break
-                        case .cancelled:
-                            break
-                    @unknown default:
-                        fatalError()
-                    }
+                DispatchQueue.main.async {
+                    self.compressAudio(inputURL: inputURL, outputURL: outputURL, index: index, finished: index == total - 1)
                 }
             }
             
             parent.presentationMode.wrappedValue.dismiss()
+        }
+        
+        func compressAudio (inputURL: URL, outputURL: URL, index: Int, finished: Bool) {
+            let urlAsset = AVURLAsset(url: inputURL, options: nil)
+            guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetAppleM4A) else { return }
+            exportSession.outputURL = outputURL
+            exportSession.outputFileType = .m4a
+            
+            let exportSessionTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                let progress = Float(exportSession.progress)
+                self.parent.progressList[index] = progress
+            }
+            exportSessionTimer.fire()
+            
+            exportSession.exportAsynchronously {
+                switch exportSession.status {
+                    case .unknown:
+                        break
+                    case .waiting:
+                        break
+                    case .exporting:
+                        break
+                    case .completed:
+                        exportSessionTimer.invalidate()
+//                        self.parent.activityItems[index] = outputURL
+                        self.parent.progressList[index] = 0.0
+                        self.saveToDocument(url: outputURL)
+                        if finished {
+//                            self.parent.isSharePresented = true
+                            self.parent.compressFinished = true
+                        }
+                    case .failed:
+                        break
+                    case .cancelled:
+                        break
+                @unknown default:
+                    fatalError()
+                }
+            }
+        }
+        
+        func saveToDocument(url: URL) {
+            do {
+                let doucumentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let folderURL = doucumentDirectory.appendingPathComponent("Audios", isDirectory: true)
+                let folderExists = (try? folderURL.checkResourceIsReachable()) ?? false
+                if (!folderExists) {
+                    try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: false)
+                }
+                let fileURL = folderURL.appendingPathComponent("\(url.lastPathComponent)")
+                try FileManager.default.copyItem(at: url, to: fileURL)
+            } catch let error {
+                print(error)
+            }
+            
         }
     }
     
