@@ -26,7 +26,7 @@
 "Permissions Denied!" = "許可權被拒絕";
 "Open App Settings to Set Permissions" = "打開設定修改許可權";
 "Others" = "其他";
-"Compression Quality" = "壓縮質量";
+"Quality" = "壓縮質量";
 "Auto Save to Files App" = "自動保存到檔案";
 "Low" = "低";
 "Medium" = "中";

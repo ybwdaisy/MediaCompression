@@ -26,7 +26,7 @@
 "Permissions Denied!" = "権限が拒否されました";
 "Open App Settings to Set Permissions" = "変更権限の設定を開く";
 "Others" = "その他";
-"Compression Quality" = "あっしゅくしつりょう";
+"Quality" = "あっしゅくしつりょう";
 "Auto Save to Files App" = "ファイルに自動的に保存";
 "Low" = "低い";
 "Medium" = "中";

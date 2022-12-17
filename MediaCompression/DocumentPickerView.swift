@@ -104,7 +104,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         let controller = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.audio], asCopy: true)
         controller.modalPresentationStyle = .fullScreen
         controller.shouldShowFileExtensions = true
-        controller.allowsMultipleSelection = true
+        controller.allowsMultipleSelection = false
         controller.delegate = context.coordinator
         return controller
     }

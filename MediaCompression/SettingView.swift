@@ -7,15 +7,19 @@
 
 import SwiftUI
 
+enum VideoCompressionQuality {
+    case AVAssetExportPresetLowQuality, AVAssetExportPresetMediumQuality, AVAssetExportPresetHighestQuality
+}
+
 struct SettingView: View {
     @State var imageCompressionQuality: Float = 0.5
-    @State var imageCreationDate: Bool = true
+    @State var imageKeepCreationDate: Bool = true
     
-    @State var videoCompressionQuality: String = "高"
-    @State var videoCreationDate: Bool = true
+    @State var videoCompressionQuality: VideoCompressionQuality = .AVAssetExportPresetHighestQuality
+    @State var videoKeepCreationDate: Bool = true
     
     @State var audioAutoSave: Bool = false
-    @State var audioAllowsMultiple: Bool = true
+    @State var audioAllowsMultiple: Bool = false
     
     @State var alertPresented = false
     @State var cacheSize: String = ""
@@ -32,14 +36,16 @@ struct SettingView: View {
                         .foregroundColor(Color(UIColor.systemGray2))
                         .font(.system(size: 16))
                     HStack {
-                        Text("Compression Quality")
+                        Text("Quality")
                             .foregroundColor(Color(UIColor.label))
-                        Stepper("\(String(format:"%.1f", imageCompressionQuality))", value: $imageCompressionQuality, in: 0.1...1.0, step: 0.1)
+                        Stepper(value: $imageCompressionQuality, in: 0.1...1.0, step: 0.1) {
+                            Text("\(String(format:"%.1f", imageCompressionQuality))")
+                        }
                     }
                     .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
                     .background(Color.white)
                     .cornerRadius(10.0)
-                    Toggle("Keep Creation Date", isOn: $imageCreationDate)
+                    Toggle("Keep Creation Date", isOn: $imageKeepCreationDate)
                         .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
                         .background(Color.white)
                         .cornerRadius(10.0)
@@ -50,19 +56,19 @@ struct SettingView: View {
                         .foregroundColor(Color(UIColor.systemGray2))
                         .font(.system(size: 16))
                     HStack {
-                        Text("Compression Quality")
+                        Text("Quality")
                             .foregroundColor(Color(UIColor.label))
                         Spacer()
                         Picker(selection: $videoCompressionQuality) {
-                            Text("Low")
-                            Text("Medium")
-                            Text("Highest")
+                            Text("Low").tag(VideoCompressionQuality.AVAssetExportPresetLowQuality)
+                            Text("Medium").tag(VideoCompressionQuality.AVAssetExportPresetMediumQuality)
+                            Text("Highest").tag(VideoCompressionQuality.AVAssetExportPresetHighestQuality)
                         } label: {}
                     }
                     .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
                     .background(Color.white)
                     .cornerRadius(10.0)
-                    Toggle("Keep Creation Date", isOn: $videoCreationDate)
+                    Toggle("Keep Creation Date", isOn: $videoKeepCreationDate)
                         .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
                         .background(Color.white)
                         .cornerRadius(10.0)
