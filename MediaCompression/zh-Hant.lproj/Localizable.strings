@@ -16,7 +16,7 @@
 "All items have been compressed." = "所有項目已壓縮完成";
 "OK" = "好";
 "Cancel" = "取消";
-"Setting" = "設置";
+"Settings" = "設置";
 "Clear the Cache" = "清除緩存";
 "Clear" = "清除";
 "Temporary files generated during the compression process will be cleared." = "壓縮過程中產生的臨時文件將被清除。";
@@ -25,13 +25,11 @@
 "Open App Settings" = "打開App設定";
 "Permissions Denied!" = "許可權被拒絕";
 "Open App Settings to Set Permissions" = "打開設定修改許可權";
-"Image Settings" = "照片設置";
-"Video Settings" = "視頻設置";
-"Audio Settings" = "音頻設置";
 "Others" = "其他";
 "Compression Quality" = "壓縮質量";
 "Auto Save to Files App" = "自動保存到檔案";
 "Low" = "低";
 "Medium" = "中";
 "Highest" = "高";
-
+"Keep Creation Date" = "保留創建日期";
+"Allows Multiple Selection" = "允許多重選擇";

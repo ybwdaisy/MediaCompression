@@ -9,9 +9,14 @@ import SwiftUI
 
 struct SettingView: View {
     @State var imageCompressionQuality: Float = 0.5
+    @State var imageCreationDate: Bool = true
+    
     @State var videoCompressionQuality: String = "高"
+    @State var videoCreationDate: Bool = true
+    
     @State var audioAutoSave: Bool = false
-
+    @State var audioAllowsMultiple: Bool = true
+    
     @State var alertPresented = false
     @State var cacheSize: String = ""
     @State var isSharePresented: Bool = false
@@ -21,19 +26,29 @@ struct SettingView: View {
     var body: some View {
         ZStack {
             Color(UIColor.systemGray6).edgesIgnoringSafeArea(.all)
-            VStack {
+            ScrollView {
                 VStack(alignment: .leading) {
-                    Text("Image Settings")
+                    Text("Photos")
                         .foregroundColor(Color(UIColor.systemGray2))
-                    Stepper("\(String(format:"%.1f", imageCompressionQuality))", value: $imageCompressionQuality, in: 0.1...1.0, step: 0.1)
+                        .font(.system(size: 16))
+                    HStack {
+                        Text("Compression Quality")
+                            .foregroundColor(Color(UIColor.label))
+                        Stepper("\(String(format:"%.1f", imageCompressionQuality))", value: $imageCompressionQuality, in: 0.1...1.0, step: 0.1)
+                    }
                     .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
                     .background(Color.white)
                     .cornerRadius(10.0)
+                    Toggle("Keep Creation Date", isOn: $imageCreationDate)
+                        .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
+                        .background(Color.white)
+                        .cornerRadius(10.0)
                 }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20.0, trailing: 0))
+                .padding(EdgeInsets(top: 0, leading: 20.0, bottom: 20.0, trailing: 20.0))
                 VStack(alignment: .leading) {
-                    Text("Video Settings")
+                    Text("Videos")
                         .foregroundColor(Color(UIColor.systemGray2))
+                        .font(.system(size: 16))
                     HStack {
                         Text("Compression Quality")
                             .foregroundColor(Color(UIColor.label))
@@ -42,24 +57,31 @@ struct SettingView: View {
                             Text("Low")
                             Text("Medium")
                             Text("Highest")
-                        } label: {
-                            Text("")
-                        }
+                        } label: {}
                     }
                     .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
                     .background(Color.white)
                     .cornerRadius(10.0)
-                }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20.0, trailing: 0))
-                VStack(alignment: .leading) {
-                    Text("Audio Settings")
-                        .foregroundColor(Color(UIColor.systemGray2))
-                    Toggle("Auto Save to Files App", isOn: $audioAutoSave)
-                        .padding()
+                    Toggle("Keep Creation Date", isOn: $videoCreationDate)
+                        .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
                         .background(Color.white)
                         .cornerRadius(10.0)
                 }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20.0, trailing: 0))
+                .padding(EdgeInsets(top: 0, leading: 20.0, bottom: 20.0, trailing: 20.0))
+                VStack(alignment: .leading) {
+                    Text("Audios")
+                        .foregroundColor(Color(UIColor.systemGray2))
+                        .font(.system(size: 16))
+                    Toggle("Auto Save to Files App", isOn: $audioAutoSave)
+                        .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
+                        .background(Color.white)
+                        .cornerRadius(10.0)
+                    Toggle("Allows Multiple Selection", isOn: $audioAllowsMultiple)
+                        .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
+                        .background(Color.white)
+                        .cornerRadius(10.0)
+                }
+                .padding(EdgeInsets(top: 0, leading: 20.0, bottom: 20.0, trailing: 20.0))
                 VStack(alignment: .leading) {
                     Text("Others")
                         .foregroundColor(Color(UIColor.systemGray2))
@@ -127,8 +149,9 @@ struct SettingView: View {
                     .cornerRadius(10.0)
                     Spacer()
                 }
+                .padding(EdgeInsets(top: 0, leading: 20.0, bottom: 20.0, trailing: 20.0))
             }
-            .padding(EdgeInsets(top: 20.0, leading: 20.0, bottom: 0, trailing: 20.0))
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .alert(isPresented: $alertPresented) {
                 Alert(
                     title: Text("Clear the Cache"),
@@ -141,7 +164,8 @@ struct SettingView: View {
                 ActivityViewController(activityItems: $activityItems)
             }
         }
-        .navigationTitle("Setting")
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             cacheSize = calculateCache()
             version = getVersion()

@@ -16,7 +16,7 @@
 "All items have been compressed." = "すべてのアイテムが圧縮されました";
 "OK" = "わかった";
 "Cancel" = "キャンセル";
-"Setting" = "設定";
+"Settings" = "設定";
 "Clear the Cache" = "キャッシュの消去";
 "Clear" = "クリアする";
 "Temporary files generated during the compression process will be cleared." = "圧縮中に生成された一時ファイルは消去されます。";
@@ -25,12 +25,11 @@
 "Open App Settings" = "App設定を開く";
 "Permissions Denied!" = "権限が拒否されました";
 "Open App Settings to Set Permissions" = "変更権限の設定を開く";
-"Image Settings" = "写真設定";
-"Video Settings" = "動画設定";
-"Audio Settings" = "オーディオ設定";
 "Others" = "その他";
 "Compression Quality" = "あっしゅくしつりょう";
 "Auto Save to Files App" = "ファイルに自動的に保存";
 "Low" = "低い";
 "Medium" = "中";
 "Highest" = "高い";
+"Keep Creation Date" = "作成日の保持";
+"Allows Multiple Selection" = "複数選択を許可";
