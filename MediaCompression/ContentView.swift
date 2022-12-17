@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
     @State var isImagePickerActionSheetPresented: Bool = false
@@ -23,6 +24,9 @@ struct ContentView: View {
     @State var alertType: NSNumber = 1
     
     @State var imagePickerType: NSNumber = 1
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -91,6 +95,16 @@ struct ContentView: View {
                     }
                     Spacer()
                 }
+            }
+            .onAppear {
+                do {
+                    let fetchSettings = NSFetchRequest<Settings>.init(entityName: "Settings")
+                    let settings = try viewContext.fetch(fetchSettings)
+                    print(settings[0].imageCompressionQuality)
+                } catch {
+                    
+                }
+                
             }
             .navigationTitle("Media Compression")
             .navigationBarItems(
@@ -172,5 +186,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     }
 }
