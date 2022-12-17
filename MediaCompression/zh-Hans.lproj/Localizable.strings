@@ -26,3 +26,12 @@
 "Open App Settings" = "打开App设置";
 "Permissions Denied!" = "权限被拒绝";
 "Open App Settings to Set Permissions" = "打开 App 设置修改权限";
+"Image Settings" = "照片设置";
+"Video Settings" = "视频设置";
+"Audio Settings" = "音频设置";
+"Others" = "其他";
+"Compression Quality" = "压缩质量";
+"Auto Save to Files App" = "自动保存至文件";
+"Low" = "低";
+"Medium" = "中";
+"Highest" = "高";
