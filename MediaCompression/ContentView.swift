@@ -151,17 +151,18 @@ struct ContentView: View {
                 ActivityViewController(activityItems: $documentActivityItems)
             }
             .alert(isPresented: $alertPresented) {
-                if (alertType == 1) {
-                    return Alert(title: Text("All items have been compressed."))
-                } else if (alertType == 2) {
-                    return Alert(
-                        title: Text("Permissions Denied!"),
-                        message: Text("Open App Settings to Set Permissions"),
-                        primaryButton: .default(Text("OK"), action: openSettings),
-                        secondaryButton: .cancel(Text("Cancel"))
-                    )
-                } else {
-                    return Alert(title: Text(""))
+                switch alertType {
+                    case 1:
+                        return Alert(title: Text("All items have been compressed."))
+                    case 2:
+                        return Alert(
+                            title: Text("Permissions Denied!"),
+                            message: Text("Open App Settings to Set Permissions"),
+                            primaryButton: .default(Text("OK"), action: openSettings),
+                            secondaryButton: .cancel(Text("Cancel"))
+                        )
+                    default:
+                        return Alert(title: Text(""))
                 }
             }
         }

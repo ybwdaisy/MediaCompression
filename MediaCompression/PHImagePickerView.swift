@@ -34,10 +34,9 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                             return
                         }
                         guard let url = url else { return }
-                        let fileName = url.deletingPathExtension().lastPathComponent
-                        let inputUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(UUID().uuidString).\(url.pathExtension)")
+                        let inputUrl = fileTmpURL(url: url)
                         try? FileManager.default.copyItem(at: url, to: inputUrl)
-                        let compressedUrl = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)")
+                        let compressedUrl = fileOutputURL(url: url)
                         
                         var fileType: AVFileType = .mov
                         

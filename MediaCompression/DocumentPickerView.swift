@@ -28,10 +28,9 @@ struct DocumentPickerView: UIViewControllerRepresentable {
             for (index, url) in urls.enumerated() {
                 self.parent.progressList.append(0.0)
                 self.parent.activityItems.append(url)
-                let fileName = url.deletingPathExtension().lastPathComponent
-                let inputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(UUID().uuidString).\(url.pathExtension)")
+                let inputURL = fileTmpURL(url: url)
                 try? FileManager.default.copyItem(at: url, to: inputURL)
-                let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)")
+                let outputURL = fileOutputURL(url: url)
                 
                 DispatchQueue.main.async {
                     self.compressAudio(inputURL: inputURL, outputURL: outputURL, index: index, finished: index == total - 1)
