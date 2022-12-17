@@ -100,3 +100,12 @@ func formatFileSize(bytes: Float) -> String {
         return String(format: "%.1f %@", number, unit).replacingOccurrences(of: ".0", with: "")
     }
 }
+
+func fileTmpURL(url: URL) -> URL {
+    return URL(fileURLWithPath: NSTemporaryDirectory() + "\(UUID().uuidString).\(url.pathExtension)")
+}
+
+func fileOutputURL(url: URL) -> URL {
+    let fileName = url.deletingPathExtension().lastPathComponent
+    return URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)")
+}

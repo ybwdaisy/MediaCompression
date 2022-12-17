@@ -17,7 +17,7 @@
 "All items have been compressed." = "所有项目已压缩完成。";
 "OK" = "好";
 "Cancel" = "取消";
-"Setting" = "设置";
+"Settings" = "设置";
 "Clear the Cache" = "清除缓存";
 "Clear" = "清除";
 "Temporary files generated during the compression process will be cleared." = "压缩过程中产生的临时文件将被清除。";
@@ -26,3 +26,11 @@
 "Open App Settings" = "打开App设置";
 "Permissions Denied!" = "权限被拒绝";
 "Open App Settings to Set Permissions" = "打开 App 设置修改权限";
+"Others" = "其他";
+"Quality" = "压缩质量";
+"Auto Save to Files App" = "自动保存至文件";
+"Low" = "低";
+"Medium" = "中";
+"Highest" = "高";
+"Keep Creation Date" = "保留创建日期";
+"Allows Multiple Selection" = "允许多选";

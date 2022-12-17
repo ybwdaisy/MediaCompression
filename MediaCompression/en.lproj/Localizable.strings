@@ -16,7 +16,7 @@
 "All items have been compressed." = "All items have been compressed.";
 "OK" = "OK";
 "Cancel" = "Cancel";
-"Setting" = "Setting";
+"Settings" = "Settings";
 "Clear the Cache" = "Clear the Cache";
 "Clear" = "Clear";
 "Temporary files generated during the compression process will be cleared." = "Temporary files generated during the compression process will be cleared.";
@@ -25,3 +25,11 @@
 "Open App Settings" = "Open App Settings";
 "Permissions Denied!" = "Permissions Denied!";
 "Open App Settings to Set Permissions" = "Open App Settings to Set Permissions";
+"Others" = "Others";
+"Quality" = "Quality";
+"Auto Save to Files App" = "Auto Save to Files App";
+"Low" = "Low";
+"Medium" = "Medium";
+"Highest" = "Highest";
+"Keep Creation Date" = "Keep Creation Date";
+"Allows Multiple Selection" = "Allows Multiple Selection";
