@@ -10,10 +10,13 @@
 		B50702C0292B0DCF003A5057 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50702BF292B0DCF003A5057 /* SettingView.swift */; };
 		B5339871292E0E3E00144FA9 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5339870292E0E3E00144FA9 /* ActivityViewController.swift */; };
 		B548E97C2924D94F00A6D22A /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B548E97B2924D94F00A6D22A /* DocumentPickerView.swift */; };
+		B56BCA73294DDCA400B06B7E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BCA72294DDCA400B06B7E /* Settings.swift */; };
 		B570984B291B8353003540AC /* MediaCompressionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B570984A291B8353003540AC /* MediaCompressionApp.swift */; };
 		B570984D291B8353003540AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B570984C291B8353003540AC /* ContentView.swift */; };
 		B570984F291B8354003540AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B570984E291B8354003540AC /* Assets.xcassets */; };
 		B5709852291B8354003540AC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5709851291B8354003540AC /* Preview Assets.xcassets */; };
+		B592F4C8294DC9AD007F21AD /* MediaCompression.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B592F4C6294DC9AD007F21AD /* MediaCompression.xcdatamodeld */; };
+		B592F4CA294DC9DD007F21AD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592F4C9294DC9DD007F21AD /* Persistence.swift */; };
 		B5AB1F20291CFAD600113F62 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */; };
 		B5B8CDC8292F3F4F00073643 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B8CDC7292F3F4F00073643 /* ShareViewController.swift */; };
 		B5B8CDCB292F3F4F00073643 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5B8CDC9292F3F4F00073643 /* MainInterface.storyboard */; };
@@ -56,12 +59,15 @@
 		B54D5D9C292CC487000BE149 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B54D5D9D292CC605000BE149 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B54D5D9E292CC605000BE149 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B56BCA72294DDCA400B06B7E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B5709847291B8353003540AC /* MediaCompression.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaCompression.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B570984A291B8353003540AC /* MediaCompressionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCompressionApp.swift; sourceTree = "<group>"; };
 		B570984C291B8353003540AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B570984E291B8354003540AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5709851291B8354003540AC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B5764960291FACA800C7F0D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B592F4C7294DC9AD007F21AD /* MediaCompression.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MediaCompression.xcdatamodel; sourceTree = "<group>"; };
+		B592F4C9294DC9DD007F21AD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		B5B8CDC5292F3F4F00073643 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5B8CDC7292F3F4F00073643 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +99,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B56BCA71294DDC8C00B06B7E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B56BCA72294DDCA400B06B7E /* Settings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		B570983E291B8353003540AC = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +128,7 @@
 		B5709849291B8353003540AC /* MediaCompression */ = {
 			isa = PBXGroup;
 			children = (
+				B56BCA71294DDC8C00B06B7E /* Models */,
 				B570984A291B8353003540AC /* MediaCompressionApp.swift */,
 				B570984C291B8353003540AC /* ContentView.swift */,
 				B5AB1F1F291CFAD600113F62 /* ImagePickerView.swift */,
@@ -122,7 +137,9 @@
 				B50702BF292B0DCF003A5057 /* SettingView.swift */,
 				B5339870292E0E3E00144FA9 /* ActivityViewController.swift */,
 				B5C7E252293EEDED00F9FFF1 /* Utils.swift */,
+				B592F4C9294DC9DD007F21AD /* Persistence.swift */,
 				B5764960291FACA800C7F0D5 /* Info.plist */,
+				B592F4C6294DC9AD007F21AD /* MediaCompression.xcdatamodeld */,
 				B570984E291B8354003540AC /* Assets.xcassets */,
 				B5D7E4BF29222D8100138B10 /* Localizable.strings */,
 				B5D7E4C529222FB800138B10 /* InfoPlist.strings */,
@@ -261,12 +278,15 @@
 			files = (
 				B548E97C2924D94F00A6D22A /* DocumentPickerView.swift in Sources */,
 				B570984D291B8353003540AC /* ContentView.swift in Sources */,
+				B592F4C8294DC9AD007F21AD /* MediaCompression.xcdatamodeld in Sources */,
 				B5AB1F20291CFAD600113F62 /* ImagePickerView.swift in Sources */,
 				B50702C0292B0DCF003A5057 /* SettingView.swift in Sources */,
 				B5339871292E0E3E00144FA9 /* ActivityViewController.swift in Sources */,
 				B5E0F12E291E52E000F7E74D /* PHImagePickerView.swift in Sources */,
 				B570984B291B8353003540AC /* MediaCompressionApp.swift in Sources */,
 				B5C7E253293EEDED00F9FFF1 /* Utils.swift in Sources */,
+				B56BCA73294DDCA400B06B7E /* Settings.swift in Sources */,
+				B592F4CA294DC9DD007F21AD /* Persistence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +601,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B592F4C6294DC9AD007F21AD /* MediaCompression.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B592F4C7294DC9AD007F21AD /* MediaCompression.xcdatamodel */,
+			);
+			currentVersion = B592F4C7294DC9AD007F21AD /* MediaCompression.xcdatamodel */;
+			path = MediaCompression.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B570983F291B8353003540AC /* Project object */;
 }

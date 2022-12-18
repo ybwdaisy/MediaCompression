@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 enum VideoCompressionQuality {
     case AVAssetExportPresetLowQuality, AVAssetExportPresetMediumQuality, AVAssetExportPresetHighestQuality
@@ -26,6 +27,8 @@ struct SettingView: View {
     @State var isSharePresented: Bool = false
     @State var activityItems: [Any] = []
     @State var version: String = ""
+    
+    @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
         ZStack {
@@ -176,6 +179,23 @@ struct SettingView: View {
             cacheSize = calculateCache()
             version = getVersion()
         }
+        .onChange(of: imageCompressionQuality) { newValue in            
+            do {
+                let fetchSettings = NSFetchRequest<Settings>.init(entityName: "Settings")
+                let settings = try viewContext.fetch(fetchSettings)
+                
+                if !settings.isEmpty {
+                    settings[0].imageCompressionQuality = newValue
+                } else {
+                    let settingsModel = Settings(context: viewContext)
+                    settingsModel.imageCompressionQuality = newValue
+                }
+                
+                try viewContext.save()
+            } catch {
+                print("error")
+            }
+        }
     }
     
     private func submitClearCache() {
@@ -187,6 +207,7 @@ struct SettingView: View {
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
         SettingView()
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     }
 }
 
