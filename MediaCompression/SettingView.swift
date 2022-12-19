@@ -30,6 +30,12 @@ struct SettingView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Settings.imageCompressionQuality, ascending: true)],
+      animation: .default)
+
+    private var settings: FetchedResults<Settings>
+    
     var body: some View {
         ZStack {
             Color(UIColor.systemGray6).edgesIgnoringSafeArea(.all)
@@ -178,29 +184,76 @@ struct SettingView: View {
         .onAppear {
             cacheSize = calculateCache()
             version = getVersion()
+            if !settings.isEmpty {
+                imageCompressionQuality = settings[0].imageCompressionQuality
+                imageKeepCreationDate = settings[0].imageKeepCreationDate
+                videoCompressionQuality = tranformVideoCompressionQuality(quality: settings[0].videoCompressionQuality)
+                videoKeepCreationDate = settings[0].videoKeepCreationDate
+                audioAutoSave = settings[0].audioAutoSave
+                audioAllowsMultiple = settings[0].audioAllowsMultiple
+            }
         }
         .onChange(of: imageCompressionQuality) { newValue in            
-            do {
-                let fetchSettings = NSFetchRequest<Settings>.init(entityName: "Settings")
-                let settings = try viewContext.fetch(fetchSettings)
-                
-                if !settings.isEmpty {
-                    settings[0].imageCompressionQuality = newValue
-                } else {
-                    let settingsModel = Settings(context: viewContext)
-                    settingsModel.imageCompressionQuality = newValue
-                }
-                
-                try viewContext.save()
-            } catch {
-                print("error")
-            }
+            syncData()
+        }
+        .onChange(of: imageKeepCreationDate) { newValue in
+            syncData()
+        }
+        .onChange(of: videoCompressionQuality) { newValue in
+            syncData()
+        }
+        .onChange(of: videoKeepCreationDate) { newValue in
+            syncData()
+        }
+        .onChange(of: audioAutoSave) { newValue in
+            syncData()
+        }
+        .onChange(of: audioAllowsMultiple) { newValue in
+            syncData()
         }
     }
     
     private func submitClearCache() {
         clearCache()
         cacheSize = calculateCache()
+    }
+    
+    private func syncData () {
+        do {
+            if !settings.isEmpty {
+                settings[0].imageCompressionQuality = imageCompressionQuality
+                settings[0].imageKeepCreationDate = imageKeepCreationDate
+                settings[0].videoCompressionQuality = "\(videoCompressionQuality)"
+                settings[0].videoKeepCreationDate = videoKeepCreationDate
+                settings[0].audioAutoSave = audioAutoSave
+                settings[0].audioAllowsMultiple = audioAllowsMultiple
+            } else {
+                let settingsModel = Settings(context: viewContext)
+                settingsModel.imageCompressionQuality = imageCompressionQuality
+                settingsModel.imageKeepCreationDate = imageKeepCreationDate
+                settingsModel.videoCompressionQuality = "\(videoCompressionQuality)"
+                settingsModel.videoKeepCreationDate = videoKeepCreationDate
+                settingsModel.audioAutoSave = audioAutoSave
+                settingsModel.audioAllowsMultiple = audioAllowsMultiple
+            }
+            
+            try viewContext.save()
+        } catch {
+            print("error")
+        }
+    }
+    
+    private func tranformVideoCompressionQuality (quality: String) -> VideoCompressionQuality {
+        switch quality {
+            case "AVAssetExportPresetLowQuality":
+                return .AVAssetExportPresetLowQuality
+            case "AVAssetExportPresetMediumQuality":
+                return .AVAssetExportPresetMediumQuality
+            case "AVAssetExportPresetHighestQuality":
+                return .AVAssetExportPresetHighestQuality
+            default:
+                return .AVAssetExportPresetHighestQuality
+        }
     }
 }
 
