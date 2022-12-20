@@ -12,6 +12,8 @@ struct ContentView: View {
     @State var isImagePickerActionSheetPresented: Bool = false
     @State var isImagePickerPresented: Bool = false
     @State var imagePickerSourceType: UIImagePickerController.SourceType = .photoLibrary
+    @State var imageCompressionQuality: Float = 0.5
+    @State var imageKeepCreationDate: Bool = false
     
     @State var isVideoPickerPresented: Bool = false
     
@@ -142,7 +144,9 @@ struct ContentView: View {
             .sheet(isPresented: $isImagePickerPresented, onDismiss: nil) {
                 ImagePickerView(
                     compressFinished: $alertPresented,
-                    sourceType: $imagePickerSourceType
+                    sourceType: $imagePickerSourceType,
+                    compressionQuality: $imageCompressionQuality,
+                    keepCreationDate: $imageKeepCreationDate
                 )
             }
             .sheet(isPresented: $isVideoPickerPresented, onDismiss: nil) {
@@ -181,6 +185,9 @@ struct ContentView: View {
             }
             .onAppear {
                 if !settings.isEmpty {
+                    imageCompressionQuality = settings[0].imageCompressionQuality
+                    imageKeepCreationDate = settings[0].imageKeepCreationDate
+                    
                     audioAutoSave = settings[0].audioAutoSave
                     audioAllowsMultiple = settings[0].audioAllowsMultiple
                 }

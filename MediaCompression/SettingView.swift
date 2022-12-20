@@ -14,10 +14,10 @@ enum VideoCompressionQuality {
 
 struct SettingView: View {
     @State var imageCompressionQuality: Float = 0.5
-    @State var imageKeepCreationDate: Bool = true
+    @State var imageKeepCreationDate: Bool = false
     
     @State var videoCompressionQuality: VideoCompressionQuality = .AVAssetExportPresetHighestQuality
-    @State var videoKeepCreationDate: Bool = true
+    @State var videoKeepCreationDate: Bool = false
     
     @State var audioAutoSave: Bool = false
     @State var audioAllowsMultiple: Bool = false
