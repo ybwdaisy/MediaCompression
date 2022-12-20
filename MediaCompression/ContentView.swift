@@ -16,6 +16,8 @@ struct ContentView: View {
     @State var imageKeepCreationDate: Bool = false
     
     @State var isVideoPickerPresented: Bool = false
+    @State var videoCompressionQuality: String = "\(VideoCompressionQuality.AVAssetExportPresetHighestQuality)"
+    @State var videoKeepCreationDate: Bool = false
     
     @State var isDocumentPickerPresented: Bool = false
     @State var isDocumentSharePresented: Bool = false
@@ -152,7 +154,9 @@ struct ContentView: View {
             .sheet(isPresented: $isVideoPickerPresented, onDismiss: nil) {
                 PHImagePickerView(
                     progressList: $progressList,
-                    compressFinished: $alertPresented
+                    compressFinished: $alertPresented,
+                    compressionQuality: $videoCompressionQuality,
+                    keepCreationDate: $videoKeepCreationDate
                 )
             }
             .sheet(isPresented: $isDocumentPickerPresented, onDismiss: nil) {
@@ -187,6 +191,9 @@ struct ContentView: View {
                 if !settings.isEmpty {
                     imageCompressionQuality = settings[0].imageCompressionQuality
                     imageKeepCreationDate = settings[0].imageKeepCreationDate
+                    
+                    videoCompressionQuality = settings[0].videoCompressionQuality
+                    videoKeepCreationDate = settings[0].videoKeepCreationDate
                     
                     audioAutoSave = settings[0].audioAutoSave
                     audioAllowsMultiple = settings[0].audioAllowsMultiple

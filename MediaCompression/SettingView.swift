@@ -241,19 +241,6 @@ struct SettingView: View {
             print("error")
         }
     }
-    
-    private func tranformVideoCompressionQuality (quality: String) -> VideoCompressionQuality {
-        switch quality {
-            case "AVAssetExportPresetLowQuality":
-                return .AVAssetExportPresetLowQuality
-            case "AVAssetExportPresetMediumQuality":
-                return .AVAssetExportPresetMediumQuality
-            case "AVAssetExportPresetHighestQuality":
-                return .AVAssetExportPresetHighestQuality
-            default:
-                return .AVAssetExportPresetHighestQuality
-        }
-    }
 }
 
 struct SettingView_Previews: PreviewProvider {

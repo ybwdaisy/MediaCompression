@@ -13,6 +13,8 @@ import Photos
 struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var progressList: [Float]
     @Binding var compressFinished: Bool
+    @Binding var compressionQuality: String
+    @Binding var keepCreationDate: Bool
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: PHPickerViewControllerDelegate {
@@ -60,7 +62,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             let urlAsset = AVURLAsset(url: inputURL, options: nil)
             let creationDate = urlAsset.creationDate?.dateValue
             
-            guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetHighestQuality) else { return }
+            guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: self.parent.compressionQuality) else { return }
             exportSession.outputURL = outputURL
             exportSession.outputFileType = fileType
             
@@ -95,8 +97,10 @@ struct PHImagePickerView: UIViewControllerRepresentable {
         func saveToAlbum(url: URL, index: Int, creationDate: Any, finished: Bool) {
             PHPhotoLibrary.shared().performChanges({
                 let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
-                if creationDate != nil {
+                if self.parent.keepCreationDate && creationDate != nil {
                     assetChangeRequest?.creationDate = creationDate as? Date;
+                } else {
+                    assetChangeRequest?.creationDate = Date()
                 }
             }) { saved, error in
                 if saved {

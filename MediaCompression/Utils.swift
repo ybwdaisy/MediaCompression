@@ -109,3 +109,16 @@ func fileOutputURL(url: URL) -> URL {
     let fileName = url.deletingPathExtension().lastPathComponent
     return URL(fileURLWithPath: NSTemporaryDirectory() + "\(fileName)_\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)")
 }
+
+func tranformVideoCompressionQuality (quality: String) -> VideoCompressionQuality {
+    switch quality {
+        case "AVAssetExportPresetLowQuality":
+            return .AVAssetExportPresetLowQuality
+        case "AVAssetExportPresetMediumQuality":
+            return .AVAssetExportPresetMediumQuality
+        case "AVAssetExportPresetHighestQuality":
+            return .AVAssetExportPresetHighestQuality
+        default:
+            return .AVAssetExportPresetHighestQuality
+    }
+}
