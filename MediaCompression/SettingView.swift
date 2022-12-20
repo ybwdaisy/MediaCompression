@@ -236,7 +236,6 @@ struct SettingView: View {
                 settingsModel.audioAutoSave = audioAutoSave
                 settingsModel.audioAllowsMultiple = audioAllowsMultiple
             }
-            
             try viewContext.save()
         } catch {
             print("error")

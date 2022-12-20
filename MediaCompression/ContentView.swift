@@ -18,6 +18,8 @@ struct ContentView: View {
     @State var isDocumentPickerPresented: Bool = false
     @State var isDocumentSharePresented: Bool = false
     @State var documentActivityItems: [Any] = []
+    @State var audioAutoSave: Bool = false
+    @State var audioAllowsMultiple: Bool = false
 
     @State var progressList: [Float] = []
     @State var alertPresented: Bool = false
@@ -102,9 +104,6 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-            .onAppear {
-                print(settings)
-            }
             .navigationTitle("Media Compression")
             .navigationBarItems(
                 trailing:
@@ -157,7 +156,9 @@ struct ContentView: View {
                     progressList: $progressList,
                     isSharePresented: $isDocumentSharePresented,
                     activityItems: $documentActivityItems,
-                    compressFinished: $alertPresented
+                    compressFinished: $alertPresented,
+                    autoSave: $audioAutoSave,
+                    allowsMultiple: $audioAllowsMultiple
                 )
             }
             .sheet(isPresented: $isDocumentSharePresented, onDismiss: nil) {
@@ -177,6 +178,13 @@ struct ContentView: View {
                     default:
                         return Alert(title: Text(""))
                 }
+            }
+            .onAppear {
+                if !settings.isEmpty {
+                    audioAutoSave = settings[0].audioAutoSave
+                    audioAllowsMultiple = settings[0].audioAllowsMultiple
+                }
+                
             }
         }
     }
