@@ -17,6 +17,8 @@ final class Settings: NSManagedObject {
     
     @NSManaged var videoKeepCreationDate: Bool
     
+    @NSManaged var videoSelectionLimit: Int
+    
     @NSManaged var audioAutoSave: Bool
     
     @NSManaged var audioAllowsMultiple: Bool

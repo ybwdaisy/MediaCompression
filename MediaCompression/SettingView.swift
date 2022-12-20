@@ -18,6 +18,7 @@ struct SettingView: View {
     
     @State var videoCompressionQuality: VideoCompressionQuality = .AVAssetExportPresetHighestQuality
     @State var videoKeepCreationDate: Bool = false
+    @State var videoSelectionLimit: Int = 10;
     
     @State var audioAutoSave: Bool = false
     @State var audioAllowsMultiple: Bool = false
@@ -73,6 +74,16 @@ struct SettingView: View {
                             Text("Medium").tag(VideoCompressionQuality.AVAssetExportPresetMediumQuality)
                             Text("Highest").tag(VideoCompressionQuality.AVAssetExportPresetHighestQuality)
                         } label: {}
+                    }
+                    .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
+                    .background(Color.white)
+                    .cornerRadius(10.0)
+                    HStack {
+                        Text("Selection Limit")
+                            .foregroundColor(Color(UIColor.label))
+                        Stepper(value: $videoSelectionLimit, in: 1...99, step: 1) {
+                            Text("\(videoSelectionLimit)")
+                        }
                     }
                     .padding(EdgeInsets(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
                     .background(Color.white)
@@ -189,6 +200,7 @@ struct SettingView: View {
                 imageKeepCreationDate = settings[0].imageKeepCreationDate
                 videoCompressionQuality = tranformVideoCompressionQuality(quality: settings[0].videoCompressionQuality)
                 videoKeepCreationDate = settings[0].videoKeepCreationDate
+                videoSelectionLimit = settings[0].videoSelectionLimit
                 audioAutoSave = settings[0].audioAutoSave
                 audioAllowsMultiple = settings[0].audioAllowsMultiple
             }
@@ -203,6 +215,9 @@ struct SettingView: View {
             syncData()
         }
         .onChange(of: videoKeepCreationDate) { newValue in
+            syncData()
+        }
+        .onChange(of: videoSelectionLimit) { newValue in
             syncData()
         }
         .onChange(of: audioAutoSave) { newValue in
@@ -225,6 +240,7 @@ struct SettingView: View {
                 settings[0].imageKeepCreationDate = imageKeepCreationDate
                 settings[0].videoCompressionQuality = "\(videoCompressionQuality)"
                 settings[0].videoKeepCreationDate = videoKeepCreationDate
+                settings[0].videoSelectionLimit = videoSelectionLimit
                 settings[0].audioAutoSave = audioAutoSave
                 settings[0].audioAllowsMultiple = audioAllowsMultiple
             } else {
@@ -233,6 +249,7 @@ struct SettingView: View {
                 settingsModel.imageKeepCreationDate = imageKeepCreationDate
                 settingsModel.videoCompressionQuality = "\(videoCompressionQuality)"
                 settingsModel.videoKeepCreationDate = videoKeepCreationDate
+                settingsModel.videoSelectionLimit = videoSelectionLimit
                 settingsModel.audioAutoSave = audioAutoSave
                 settingsModel.audioAllowsMultiple = audioAllowsMultiple
             }

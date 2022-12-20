@@ -18,6 +18,7 @@ struct ContentView: View {
     @State var isVideoPickerPresented: Bool = false
     @State var videoCompressionQuality: String = "\(VideoCompressionQuality.AVAssetExportPresetHighestQuality)"
     @State var videoKeepCreationDate: Bool = false
+    @State var videoSelectionLimit: Int = 10
     
     @State var isDocumentPickerPresented: Bool = false
     @State var isDocumentSharePresented: Bool = false
@@ -156,7 +157,8 @@ struct ContentView: View {
                     progressList: $progressList,
                     compressFinished: $alertPresented,
                     compressionQuality: $videoCompressionQuality,
-                    keepCreationDate: $videoKeepCreationDate
+                    keepCreationDate: $videoKeepCreationDate,
+                    selectionLimit: $videoSelectionLimit
                 )
             }
             .sheet(isPresented: $isDocumentPickerPresented, onDismiss: nil) {
@@ -194,6 +196,7 @@ struct ContentView: View {
                     
                     videoCompressionQuality = settings[0].videoCompressionQuality
                     videoKeepCreationDate = settings[0].videoKeepCreationDate
+                    videoSelectionLimit = settings[0].videoSelectionLimit
                     
                     audioAutoSave = settings[0].audioAutoSave
                     audioAllowsMultiple = settings[0].audioAllowsMultiple

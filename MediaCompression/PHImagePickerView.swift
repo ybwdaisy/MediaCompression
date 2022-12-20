@@ -15,6 +15,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var compressFinished: Bool
     @Binding var compressionQuality: String
     @Binding var keepCreationDate: Bool
+    @Binding var selectionLimit: Int
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: PHPickerViewControllerDelegate {
@@ -119,7 +120,7 @@ struct PHImagePickerView: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 10
+        configuration.selectionLimit = selectionLimit
         configuration.filter = .videos
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
