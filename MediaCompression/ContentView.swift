@@ -27,6 +27,12 @@ struct ContentView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Settings.imageCompressionQuality, ascending: true)],
+      animation: .default)
+
+    private var settings: FetchedResults<Settings>
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -97,14 +103,7 @@ struct ContentView: View {
                 }
             }
             .onAppear {
-                do {
-                    let fetchSettings = NSFetchRequest<Settings>.init(entityName: "Settings")
-                    let settings = try viewContext.fetch(fetchSettings)
-                    print(settings[0].imageCompressionQuality)
-                } catch {
-                    
-                }
-                
+                print(settings)
             }
             .navigationTitle("Media Compression")
             .navigationBarItems(
