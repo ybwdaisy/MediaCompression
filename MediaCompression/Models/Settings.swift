@@ -9,6 +9,8 @@ import Foundation
 import CoreData
 
 final class Settings: NSManagedObject {
+    @NSManaged override var objectID: NSManagedObjectID
+    
     @NSManaged var imageCompressionQuality: Float
     
     @NSManaged var imageKeepCreationDate: Bool
