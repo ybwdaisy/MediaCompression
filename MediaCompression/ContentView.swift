@@ -12,12 +12,19 @@ struct ContentView: View {
     @State var isImagePickerActionSheetPresented: Bool = false
     @State var isImagePickerPresented: Bool = false
     @State var imagePickerSourceType: UIImagePickerController.SourceType = .photoLibrary
+    @State var imageCompressionQuality: Float = 0.5
+    @State var imageKeepCreationDate: Bool = false
     
     @State var isVideoPickerPresented: Bool = false
+    @State var videoCompressionQuality: String = "\(VideoCompressionQuality.AVAssetExportPresetHighestQuality)"
+    @State var videoKeepCreationDate: Bool = false
+    @State var videoSelectionLimit: Int = 10
     
     @State var isDocumentPickerPresented: Bool = false
     @State var isDocumentSharePresented: Bool = false
     @State var documentActivityItems: [Any] = []
+    @State var audioAutoSave: Bool = false
+    @State var audioAllowsMultiple: Bool = false
 
     @State var progressList: [Float] = []
     @State var alertPresented: Bool = false
@@ -102,9 +109,6 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-            .onAppear {
-                print(settings)
-            }
             .navigationTitle("Media Compression")
             .navigationBarItems(
                 trailing:
@@ -143,13 +147,18 @@ struct ContentView: View {
             .sheet(isPresented: $isImagePickerPresented, onDismiss: nil) {
                 ImagePickerView(
                     compressFinished: $alertPresented,
-                    sourceType: $imagePickerSourceType
+                    sourceType: $imagePickerSourceType,
+                    compressionQuality: $imageCompressionQuality,
+                    keepCreationDate: $imageKeepCreationDate
                 )
             }
             .sheet(isPresented: $isVideoPickerPresented, onDismiss: nil) {
                 PHImagePickerView(
                     progressList: $progressList,
-                    compressFinished: $alertPresented
+                    compressFinished: $alertPresented,
+                    compressionQuality: $videoCompressionQuality,
+                    keepCreationDate: $videoKeepCreationDate,
+                    selectionLimit: $videoSelectionLimit
                 )
             }
             .sheet(isPresented: $isDocumentPickerPresented, onDismiss: nil) {
@@ -157,7 +166,9 @@ struct ContentView: View {
                     progressList: $progressList,
                     isSharePresented: $isDocumentSharePresented,
                     activityItems: $documentActivityItems,
-                    compressFinished: $alertPresented
+                    compressFinished: $alertPresented,
+                    autoSave: $audioAutoSave,
+                    allowsMultiple: $audioAllowsMultiple
                 )
             }
             .sheet(isPresented: $isDocumentSharePresented, onDismiss: nil) {
@@ -177,6 +188,20 @@ struct ContentView: View {
                     default:
                         return Alert(title: Text(""))
                 }
+            }
+            .onAppear {
+                if !settings.isEmpty {
+                    imageCompressionQuality = settings[0].imageCompressionQuality
+                    imageKeepCreationDate = settings[0].imageKeepCreationDate
+                    
+                    videoCompressionQuality = settings[0].videoCompressionQuality
+                    videoKeepCreationDate = settings[0].videoKeepCreationDate
+                    videoSelectionLimit = settings[0].videoSelectionLimit
+                    
+                    audioAutoSave = settings[0].audioAutoSave
+                    audioAllowsMultiple = settings[0].audioAllowsMultiple
+                }
+                
             }
         }
     }

@@ -14,6 +14,8 @@ struct DocumentPickerView: UIViewControllerRepresentable {
     @Binding var isSharePresented: Bool
     @Binding var activityItems: [Any]
     @Binding var compressFinished: Bool
+    @Binding var autoSave: Bool
+    @Binding var allowsMultiple: Bool
     @Environment(\.presentationMode) var presentationMode
 
     class Coordinator: NSObject, UINavigationControllerDelegate, UIDocumentPickerDelegate {
@@ -62,12 +64,18 @@ struct DocumentPickerView: UIViewControllerRepresentable {
                         break
                     case .completed:
                         exportSessionTimer.invalidate()
-//                        self.parent.activityItems[index] = outputURL
                         self.parent.progressList[index] = 0.0
-                        self.saveToDocument(url: outputURL)
+                        if (self.parent.autoSave) {
+                            self.saveToDocument(url: outputURL)
+                        } else {
+                            self.parent.activityItems[index] = outputURL
+                        }
                         if finished {
-//                            self.parent.isSharePresented = true
-                            self.parent.compressFinished = true
+                            if (self.parent.autoSave) {
+                                self.parent.compressFinished = true
+                            } else {
+                                self.parent.isSharePresented = true
+                            }
                         }
                     case .failed:
                         break
@@ -104,7 +112,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         let controller = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.audio], asCopy: true)
         controller.modalPresentationStyle = .fullScreen
         controller.shouldShowFileExtensions = true
-        controller.allowsMultipleSelection = false
+        controller.allowsMultipleSelection = allowsMultiple
         controller.delegate = context.coordinator
         return controller
     }

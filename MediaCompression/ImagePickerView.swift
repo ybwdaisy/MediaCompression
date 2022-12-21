@@ -12,6 +12,8 @@ import Photos
 struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var compressFinished: Bool
     @Binding var sourceType: UIImagePickerController.SourceType
+    @Binding var compressionQuality: Float
+    @Binding var keepCreationDate: Bool
     @Environment(\.presentationMode) var presentationMode
     
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -39,7 +41,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 
                 let image = info[.originalImage] as? UIImage
                 let imageURL = info[.imageURL] as? URL
-                let data = image?.jpegData(compressionQuality: 0.5)
+                let data = image?.jpegData(compressionQuality: CGFloat(self.parent.compressionQuality))
 
                 let source = CGImageSourceCreateWithData(data! as CFData, nil)
                 let type = CGImageSourceGetType(source!)
@@ -62,8 +64,10 @@ struct ImagePickerView: UIViewControllerRepresentable {
 
             PHPhotoLibrary.shared().performChanges({
                 let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: outputURL)
-                if creationDate != nil {
+                if self.parent.keepCreationDate && creationDate != nil {
                     assetChangeRequest?.creationDate = creationDate as Date
+                } else {
+                    assetChangeRequest?.creationDate = Date()
                 }
             }) { saved, error in
                 if saved {
