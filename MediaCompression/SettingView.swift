@@ -205,25 +205,7 @@ struct SettingView: View {
                 audioAllowsMultiple = settings[0].audioAllowsMultiple
             }
         }
-        .onChange(of: imageCompressionQuality) { newValue in            
-            syncData()
-        }
-        .onChange(of: imageKeepCreationDate) { newValue in
-            syncData()
-        }
-        .onChange(of: videoCompressionQuality) { newValue in
-            syncData()
-        }
-        .onChange(of: videoKeepCreationDate) { newValue in
-            syncData()
-        }
-        .onChange(of: videoSelectionLimit) { newValue in
-            syncData()
-        }
-        .onChange(of: audioAutoSave) { newValue in
-            syncData()
-        }
-        .onChange(of: audioAllowsMultiple) { newValue in
+        .onDisappear {
             syncData()
         }
     }
