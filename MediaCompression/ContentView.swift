@@ -35,7 +35,7 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Settings.imageCompressionQuality, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Settings.objectID, ascending: true)],
       animation: .default)
 
     private var settings: FetchedResults<Settings>
