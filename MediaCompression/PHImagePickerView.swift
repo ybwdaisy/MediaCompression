@@ -97,6 +97,24 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             
         }
         
+        func saveToAlbum(url: URL, index: Int, creationDate: Any, finished: Bool) {
+            PHPhotoLibrary.shared().performChanges({
+                let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
+                if self.parent.keepCreationDate && creationDate != nil {
+                    assetChangeRequest?.creationDate = creationDate as? Date;
+                } else {
+                    assetChangeRequest?.creationDate = Date()
+                }
+            }) { saved, error in
+                if saved {
+                    self.parent.progressList[index] = 0.0
+                }
+                if finished {
+                    self.parent.compressFinished = true
+                }
+            }
+        }
+        
         func compressVideoWithAlgorithmLZFSE(inputURL: URL, outputURL: URL, index: Int, finished: Bool) {
             let urlAsset = AVURLAsset(url: inputURL, options: nil)
             let creationDate = urlAsset.creationDate?.dateValue
@@ -143,24 +161,6 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                 print(error)
             }
             
-        }
-        
-        func saveToAlbum(url: URL, index: Int, creationDate: Any, finished: Bool) {
-            PHPhotoLibrary.shared().performChanges({
-                let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
-                if self.parent.keepCreationDate && creationDate != nil {
-                    assetChangeRequest?.creationDate = creationDate as? Date;
-                } else {
-                    assetChangeRequest?.creationDate = Date()
-                }
-            }) { saved, error in
-                if saved {
-                    self.parent.progressList[index] = 0.0
-                }
-                if finished {
-                    self.parent.compressFinished = true
-                }
-            }
         }
     }
     
