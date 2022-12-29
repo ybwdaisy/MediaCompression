@@ -9,6 +9,8 @@ import Foundation
 import PhotosUI
 import SwiftUI
 import Photos
+import AppleArchive
+import System
 
 struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var progressList: [Float]
@@ -91,6 +93,54 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                 @unknown default:
                     fatalError()
                 }
+            }
+            
+        }
+        
+        func compressVideoWithAlgorithmLZFSE(inputURL: URL, outputURL: URL, index: Int, finished: Bool) {
+            let urlAsset = AVURLAsset(url: inputURL, options: nil)
+            let creationDate = urlAsset.creationDate?.dateValue
+            
+            // Algorithm.lzfse
+            let sourceFilePath = FilePath(inputURL)
+            guard let readFileStream = ArchiveByteStream.fileStream(path: sourceFilePath!, mode: .readOnly, options: [], permissions: FilePermissions(rawValue: 0o644)) else { return }
+            defer {
+                try? readFileStream.close()
+            }
+            
+            let archiveFilePath = FilePath(outputURL)
+            guard let writeFileStream = ArchiveByteStream.fileStream(path: archiveFilePath!, mode: .writeOnly, options: [.create], permissions: FilePermissions(rawValue: 0o644)) else { return }
+            defer {
+                try? writeFileStream.close()
+            }
+            
+            guard let compressStream = ArchiveByteStream.compressionStream(using: .lzfse, writingTo: writeFileStream) else { return }
+            defer {
+                try? compressStream.close()
+            }
+
+            do {
+                _ = try ArchiveByteStream.process(readingFrom: readFileStream, writingTo: compressStream)
+                self.saveToDocument(url: outputURL)
+            } catch {
+                print("Handle `ArchiveByteStream.process` failed.")
+            }
+            
+        }
+        
+        func saveToDocument(url: URL) {
+            do {
+                let doucumentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let folderURL = doucumentDirectory.appendingPathComponent("Videos", isDirectory: true)
+                let folderExists = (try? folderURL.checkResourceIsReachable()) ?? false
+                if (!folderExists) {
+                    try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: false)
+                }
+                let fileURL = folderURL.appendingPathComponent("\(url.lastPathComponent)")
+                try FileManager.default.copyItem(at: url, to: fileURL)
+                self.parent.compressFinished = true
+            } catch let error {
+                print(error)
             }
             
         }
