@@ -192,6 +192,27 @@ struct SettingView: View {
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: imageCompressionQuality) { newValue in
+            syncData()
+        }
+        .onChange(of: imageKeepCreationDate) { newValue in
+            syncData()
+        }
+        .onChange(of: videoCompressionQuality) { newValue in
+            syncData()
+        }
+        .onChange(of: videoKeepCreationDate) { newValue in
+            syncData()
+        }
+        .onChange(of: videoSelectionLimit) { newValue in
+            syncData()
+        }
+        .onChange(of: audioAutoSave) { newValue in
+            syncData()
+        }
+        .onChange(of: audioAllowsMultiple) { newValue in
+            syncData()
+        }
         .onAppear {
             cacheSize = calculateCache()
             version = getVersion()
@@ -204,9 +225,6 @@ struct SettingView: View {
                 audioAutoSave = settings[0].audioAutoSave
                 audioAllowsMultiple = settings[0].audioAllowsMultiple
             }
-        }
-        .onDisappear {
-            syncData()
         }
     }
     
