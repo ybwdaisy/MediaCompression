@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B50702C0292B0DCF003A5057 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50702BF292B0DCF003A5057 /* SettingView.swift */; };
+		B509046D295EB6B900CAAA13 /* VideoCompression.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509046C295EB6B900CAAA13 /* VideoCompression.swift */; };
 		B5339871292E0E3E00144FA9 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5339870292E0E3E00144FA9 /* ActivityViewController.swift */; };
 		B548E97C2924D94F00A6D22A /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B548E97B2924D94F00A6D22A /* DocumentPickerView.swift */; };
 		B56BCA73294DDCA400B06B7E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BCA72294DDCA400B06B7E /* Settings.swift */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		B50702BF292B0DCF003A5057 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		B509046C295EB6B900CAAA13 /* VideoCompression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCompression.swift; sourceTree = "<group>"; };
 		B5339870292E0E3E00144FA9 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		B548E97B2924D94F00A6D22A /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
 		B54D5D9B292CC487000BE149 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				B548E97B2924D94F00A6D22A /* DocumentPickerView.swift */,
 				B50702BF292B0DCF003A5057 /* SettingView.swift */,
 				B5339870292E0E3E00144FA9 /* ActivityViewController.swift */,
+				B509046C295EB6B900CAAA13 /* VideoCompression.swift */,
 				B5C7E252293EEDED00F9FFF1 /* Utils.swift */,
 				B592F4C9294DC9DD007F21AD /* Persistence.swift */,
 				B5764960291FACA800C7F0D5 /* Info.plist */,
@@ -282,6 +285,7 @@
 				B5AB1F20291CFAD600113F62 /* ImagePickerView.swift in Sources */,
 				B50702C0292B0DCF003A5057 /* SettingView.swift in Sources */,
 				B5339871292E0E3E00144FA9 /* ActivityViewController.swift in Sources */,
+				B509046D295EB6B900CAAA13 /* VideoCompression.swift in Sources */,
 				B5E0F12E291E52E000F7E74D /* PHImagePickerView.swift in Sources */,
 				B570984B291B8353003540AC /* MediaCompressionApp.swift in Sources */,
 				B5C7E253293EEDED00F9FFF1 /* Utils.swift in Sources */,

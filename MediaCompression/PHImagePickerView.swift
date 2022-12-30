@@ -9,8 +9,6 @@ import Foundation
 import PhotosUI
 import SwiftUI
 import Photos
-import AppleArchive
-import System
 
 struct PHImagePickerView: UIViewControllerRepresentable {
     @Binding var progressList: [Float]
@@ -22,9 +20,11 @@ struct PHImagePickerView: UIViewControllerRepresentable {
     
     class Coordinator: PHPickerViewControllerDelegate {
         private let parent: PHImagePickerView
+        private var backgroundTaskId: UIBackgroundTaskIdentifier
         
         init(parent: PHImagePickerView) {
             self.parent = parent
+            self.backgroundTaskId = UIBackgroundTaskIdentifier.invalid
         }
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
@@ -50,7 +50,8 @@ struct PHImagePickerView: UIViewControllerRepresentable {
                         }
 
                         DispatchQueue.main.async {
-                            self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl, index: index, fileType: fileType, finished: index == total - 1)
+//                            self.compressVideo(inputURL: inputUrl, outputURL: compressedUrl, index: index, fileType: fileType, finished: index == total - 1)
+                            self.compressH264Video(inputURL: inputUrl, outputURL: compressedUrl)
                         }
                     }
                 }
@@ -115,35 +116,35 @@ struct PHImagePickerView: UIViewControllerRepresentable {
             }
         }
         
-        func compressVideoWithAlgorithmLZFSE(inputURL: URL, outputURL: URL, index: Int, finished: Bool) {
-            let urlAsset = AVURLAsset(url: inputURL, options: nil)
-            let creationDate = urlAsset.creationDate?.dateValue
+        func compressH264Video(inputURL: URL, outputURL: URL) {
+            let cancelable = compressh264VideoInBackground(
+                videoToCompress: inputURL,
+                destinationPath: outputURL,
+                size: nil,
+                compressionTransform: .keepSame,
+                compressionConfig: .defaultConfig,
+                completionHandler: { path in
+                    self.saveToDocument(url: path)
+                    UIApplication.shared.endBackgroundTask(self.backgroundTaskId)
+                    self.backgroundTaskId = UIBackgroundTaskIdentifier.invalid
+                },
+                errorHandler: { e in
+                    print("Error: ", e)
+                    UIApplication.shared.endBackgroundTask(self.backgroundTaskId)
+                    self.backgroundTaskId = UIBackgroundTaskIdentifier.invalid
+                },
+                cancelHandler: {
+                    print("Canceled.")
+                    UIApplication.shared.endBackgroundTask(self.backgroundTaskId)
+                    self.backgroundTaskId = UIBackgroundTaskIdentifier.invalid
+                }
+            )
             
-            // Algorithm.lzfse
-            let sourceFilePath = FilePath(inputURL)
-            guard let readFileStream = ArchiveByteStream.fileStream(path: sourceFilePath!, mode: .readOnly, options: [], permissions: FilePermissions(rawValue: 0o644)) else { return }
-            defer {
-                try? readFileStream.close()
+            self.backgroundTaskId = UIApplication.shared.beginBackgroundTask(withName: "compress H264 video") {
+                cancelable.cancel = true
+                UIApplication.shared.endBackgroundTask(self.backgroundTaskId)
+                self.backgroundTaskId = UIBackgroundTaskIdentifier.invalid
             }
-            
-            let archiveFilePath = FilePath(outputURL)
-            guard let writeFileStream = ArchiveByteStream.fileStream(path: archiveFilePath!, mode: .writeOnly, options: [.create], permissions: FilePermissions(rawValue: 0o644)) else { return }
-            defer {
-                try? writeFileStream.close()
-            }
-            
-            guard let compressStream = ArchiveByteStream.compressionStream(using: .lzfse, writingTo: writeFileStream) else { return }
-            defer {
-                try? compressStream.close()
-            }
-
-            do {
-                _ = try ArchiveByteStream.process(readingFrom: readFileStream, writingTo: compressStream)
-                self.saveToDocument(url: outputURL)
-            } catch {
-                print("Handle `ArchiveByteStream.process` failed.")
-            }
-            
         }
         
         func saveToDocument(url: URL) {
